@@ -1,0 +1,1128 @@
+/* ═══════════════════════════════════════════════════════
+   மனதின் வரிகள் · Manathin Varigal — styles.css
+   Tamil Poetry Studio  ·  Full Theming + Layout System
+   ═══════════════════════════════════════════════════════ */
+
+/* ─── RESET & BASE ─────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; font-size: 15px; }
+body {
+  min-height: 100vh;
+  font-family: 'Noto Sans Tamil', 'Noto Serif Tamil', sans-serif;
+  background: var(--app-bg);
+  color: var(--app-fg);
+  transition: background 0.5s ease, color 0.4s ease;
+  overflow-x: hidden;
+}
+img { max-width: 100%; }
+button { cursor: pointer; font-family: inherit; }
+select, input[type="text"], textarea {
+  font-family: inherit;
+  background: var(--input-bg);
+  color: var(--input-fg);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 0.5rem 0.75rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.25s, box-shadow 0.25s;
+}
+select:focus, input[type="text"]:focus, textarea:focus {
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px var(--accent-glow);
+}
+input[type="range"] {
+  -webkit-appearance: none; width: 100%; height: 4px;
+  background: var(--border); border-radius: 2px; outline: none;
+  border: none; padding: 0;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none; width: 16px; height: 16px;
+  border-radius: 50%; background: var(--accent); cursor: pointer;
+  box-shadow: 0 0 8px var(--accent-glow);
+}
+ul, ol { padding-left: 1.25rem; }
+li { margin-bottom: 0.35rem; }
+.sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
+
+/* ─── CSS VARIABLE THEMES ───────────────────────────────── */
+
+/* 1 · Midnight Blue ──────────────────────────── */
+.theme-midnight {
+  --app-bg: #07090f;
+  --app-fg: #c8d4f0;
+  --panel-bg: #0d1120;
+  --panel-border: #1e2a4a;
+  --input-bg: #111827;
+  --input-fg: #c8d4f0;
+  --border: #1e2a4a;
+  --accent: #5b8cff;
+  --accent-glow: rgba(91,140,255,0.25);
+  --accent2: #a78bfa;
+  --heading: #e0e8ff;
+  --muted: #556080;
+  --card-bg: linear-gradient(160deg, #0a0e1f 0%, #0e1530 60%, #06080f 100%);
+  --card-text: #dde8ff;
+  --card-title: #7aa5ff;
+  --card-meta: #8898cc;
+  --card-border: rgba(91,140,255,0.3);
+  --card-shadow: 0 30px 80px rgba(0,0,20,0.9), 0 0 40px rgba(91,140,255,0.12);
+  --ornament-color: #3d5eb3;
+  --particle-color: rgba(91,140,255,0.4);
+  --shimmer-start: #1a2f6a;
+  --shimmer-end: #0d1a40;
+}
+
+/* 2 · Chalk & Ash ────────────────────────────── */
+.theme-chalk {
+  --app-bg: #0c0c0c;
+  --app-fg: #e8e8e8;
+  --panel-bg: #141414;
+  --panel-border: #282828;
+  --input-bg: #1c1c1c;
+  --input-fg: #e8e8e8;
+  --border: #2a2a2a;
+  --accent: #e8e8e8;
+  --accent-glow: rgba(232,232,232,0.15);
+  --accent2: #999;
+  --heading: #fff;
+  --muted: #555;
+  --card-bg: #111111;
+  --card-text: #e0e0e0;
+  --card-title: #fff;
+  --card-meta: #888;
+  --card-border: rgba(255,255,255,0.12);
+  --card-shadow: 0 30px 80px rgba(0,0,0,0.95);
+  --ornament-color: #444;
+  --particle-color: rgba(255,255,255,0.15);
+  --shimmer-start: #222;
+  --shimmer-end: #111;
+}
+
+/* 3 · Monsoon Rain ───────────────────────────── */
+.theme-rain {
+  --app-bg: #0a1017;
+  --app-fg: #b8d4e8;
+  --panel-bg: #0e1820;
+  --panel-border: #1a2d3d;
+  --input-bg: #111f2a;
+  --input-fg: #b8d4e8;
+  --border: #1a2d3d;
+  --accent: #4fa8d5;
+  --accent-glow: rgba(79,168,213,0.25);
+  --accent2: #82c4e0;
+  --heading: #cce8f8;
+  --muted: #3a6070;
+  --card-bg: linear-gradient(160deg, #091420 0%, #0f2030 60%, #07111b 100%);
+  --card-text: #b8d4e8;
+  --card-title: #80ccee;
+  --card-meta: #5a9ab5;
+  --card-border: rgba(79,168,213,0.25);
+  --card-shadow: 0 30px 80px rgba(0,5,15,0.9), 0 0 50px rgba(20,80,120,0.3);
+  --ornament-color: #2a6080;
+  --particle-color: rgba(79,168,213,0.3);
+  --shimmer-start: #1a4060;
+  --shimmer-end: #0d2030;
+}
+
+/* 4 · Sangam Ancient ─────────────────────────── */
+.theme-sangam {
+  --app-bg: #1a1208;
+  --app-fg: #e8d9b0;
+  --panel-bg: #221808;
+  --panel-border: #3a2d10;
+  --input-bg: #1c1408;
+  --input-fg: #e8d9b0;
+  --border: #3a2d10;
+  --accent: #c89b3c;
+  --accent-glow: rgba(200,155,60,0.25);
+  --accent2: #e8c06a;
+  --heading: #f0e0a0;
+  --muted: #6a5828;
+  --card-bg: linear-gradient(160deg, #1e1508 0%, #261a08 60%, #160f05 100%);
+  --card-text: #e0d0a8;
+  --card-title: #d4a840;
+  --card-meta: #9a7830;
+  --card-border: rgba(200,155,60,0.3);
+  --card-shadow: 0 30px 80px rgba(10,5,0,0.9), 0 0 40px rgba(150,100,20,0.2);
+  --ornament-color: #8a6820;
+  --particle-color: rgba(200,155,60,0.3);
+  --shimmer-start: #4a3010;
+  --shimmer-end: #2a1a08;
+}
+
+/* 5 · Revolution Red ─────────────────────────── */
+.theme-revolution {
+  --app-bg: #0f0505;
+  --app-fg: #f0c8c8;
+  --panel-bg: #160808;
+  --panel-border: #3a1010;
+  --input-bg: #130606;
+  --input-fg: #f0c8c8;
+  --border: #3a1010;
+  --accent: #e03030;
+  --accent-glow: rgba(224,48,48,0.25);
+  --accent2: #ff7070;
+  --heading: #ffe0e0;
+  --muted: #6a2020;
+  --card-bg: linear-gradient(160deg, #130505 0%, #1a0808 60%, #0d0303 100%);
+  --card-text: #f0c8c8;
+  --card-title: #ff5555;
+  --card-meta: #c06060;
+  --card-border: rgba(224,48,48,0.25);
+  --card-shadow: 0 30px 80px rgba(15,0,0,0.95), 0 0 40px rgba(180,20,20,0.25);
+  --ornament-color: #8a1a1a;
+  --particle-color: rgba(224,48,48,0.3);
+  --shimmer-start: #5a1010;
+  --shimmer-end: #2a0808;
+}
+
+/* 6 · Temple Lamp ────────────────────────────── */
+.theme-temple {
+  --app-bg: #100c00;
+  --app-fg: #f8e8a0;
+  --panel-bg: #1a1200;
+  --panel-border: #3d2f00;
+  --input-bg: #150f00;
+  --input-fg: #f8e8a0;
+  --border: #3d2f00;
+  --accent: #ffb830;
+  --accent-glow: rgba(255,184,48,0.28);
+  --accent2: #ffe080;
+  --heading: #fff0b0;
+  --muted: #7a5f10;
+  --card-bg: radial-gradient(ellipse at center, #2a1e02 0%, #150e00 60%, #0a0700 100%);
+  --card-text: #f5e090;
+  --card-title: #ffc040;
+  --card-meta: #c09030;
+  --card-border: rgba(255,184,48,0.35);
+  --card-shadow: 0 30px 80px rgba(5,3,0,0.95), 0 0 60px rgba(255,160,0,0.2);
+  --ornament-color: #c08020;
+  --particle-color: rgba(255,200,60,0.4);
+  --shimmer-start: #5a3d00;
+  --shimmer-end: #2a1d00;
+}
+
+/* 7 · Forest Night ───────────────────────────── */
+.theme-forest {
+  --app-bg: #060f08;
+  --app-fg: #b8d8b8;
+  --panel-bg: #090f0b;
+  --panel-border: #153020;
+  --input-bg: #0c150e;
+  --input-fg: #b8d8b8;
+  --border: #153020;
+  --accent: #3ab870;
+  --accent-glow: rgba(58,184,112,0.25);
+  --accent2: #70d898;
+  --heading: #d0f0d0;
+  --muted: #306040;
+  --card-bg: linear-gradient(160deg, #081208 0%, #0d1c0f 60%, #050d06 100%);
+  --card-text: #b8d8b8;
+  --card-title: #50d080;
+  --card-meta: #488860;
+  --card-border: rgba(58,184,112,0.25);
+  --card-shadow: 0 30px 80px rgba(0,8,3,0.9), 0 0 40px rgba(20,100,40,0.25);
+  --ornament-color: #286840;
+  --particle-color: rgba(58,184,112,0.3);
+  --shimmer-start: #1a5030;
+  --shimmer-end: #0d2a18;
+}
+
+/* 8 · Broken Heart ───────────────────────────── */
+.theme-broken {
+  --app-bg: #0d0508;
+  --app-fg: #e8b8c8;
+  --panel-bg: #150810;
+  --panel-border: #3d1528;
+  --input-bg: #110610;
+  --input-fg: #e8b8c8;
+  --border: #3d1528;
+  --accent: #c0507a;
+  --accent-glow: rgba(192,80,122,0.25);
+  --accent2: #e880a8;
+  --heading: #f0d0e0;
+  --muted: #703050;
+  --card-bg: linear-gradient(160deg, #110508 0%, #180a10 60%, #0d0408 100%);
+  --card-text: #e8b8c8;
+  --card-title: #e06090;
+  --card-meta: #a06070;
+  --card-border: rgba(192,80,122,0.28);
+  --card-shadow: 0 30px 80px rgba(10,0,5,0.95), 0 0 50px rgba(150,30,70,0.25);
+  --ornament-color: #801840;
+  --particle-color: rgba(192,80,122,0.35);
+  --shimmer-start: #501030;
+  --shimmer-end: #280810;
+}
+
+/* 9 · Moonlight Silver ───────────────────────── */
+.theme-moon {
+  --app-bg: #06070f;
+  --app-fg: #c8d0e8;
+  --panel-bg: #0a0c18;
+  --panel-border: #181d30;
+  --input-bg: #0c0e1c;
+  --input-fg: #c8d0e8;
+  --border: #181d30;
+  --accent: #a0b8e0;
+  --accent-glow: rgba(160,184,224,0.2);
+  --accent2: #d0e0f8;
+  --heading: #e0e8ff;
+  --muted: #405070;
+  --card-bg: radial-gradient(ellipse at top, #0f1525 0%, #080b18 60%, #050810 100%);
+  --card-text: #c0d0e8;
+  --card-title: #b0c8f0;
+  --card-meta: #7090c0;
+  --card-border: rgba(160,184,224,0.22);
+  --card-shadow: 0 30px 80px rgba(0,0,10,0.95), 0 0 60px rgba(100,130,200,0.15);
+  --ornament-color: #506090;
+  --particle-color: rgba(160,184,224,0.25);
+  --shimmer-start: #202840;
+  --shimmer-end: #0d1020;
+}
+
+/* 10 · Vintage Parchment ─────────────────────── */
+.theme-vintage {
+  --app-bg: #1a1410;
+  --app-fg: #d8c8a8;
+  --panel-bg: #221c14;
+  --panel-border: #3a2e1c;
+  --input-bg: #1e1810;
+  --input-fg: #d8c8a8;
+  --border: #3a2e1c;
+  --accent: #b89050;
+  --accent-glow: rgba(184,144,80,0.22);
+  --accent2: #d0a870;
+  --heading: #f0e0b0;
+  --muted: #7a6040;
+  --card-bg: linear-gradient(160deg, #ded0a0 0%, #d0c090 50%, #c8b880 100%);
+  --card-text: #3a2e1c;
+  --card-title: #5a3a10;
+  --card-meta: #7a5030;
+  --card-border: rgba(120,80,20,0.4);
+  --card-shadow: 0 30px 80px rgba(10,5,0,0.7);
+  --ornament-color: #8a6030;
+  --particle-color: rgba(184,144,80,0.3);
+  --shimmer-start: #6a4a20;
+  --shimmer-end: #3a2a10;
+}
+
+/* 11 · Dusk Orange ───────────────────────────── */
+.theme-dusk {
+  --app-bg: #100800;
+  --app-fg: #f0c880;
+  --panel-bg: #180e00;
+  --panel-border: #401e00;
+  --input-bg: #140a00;
+  --input-fg: #f0c880;
+  --border: #401e00;
+  --accent: #ff7a20;
+  --accent-glow: rgba(255,122,32,0.28);
+  --accent2: #ffb060;
+  --heading: #ffe0a0;
+  --muted: #804010;
+  --card-bg: linear-gradient(160deg, #1a0a00 0%, #200d00 60%, #120600 100%);
+  --card-text: #f0c880;
+  --card-title: #ff8030;
+  --card-meta: #c07030;
+  --card-border: rgba(255,122,32,0.3);
+  --card-shadow: 0 30px 80px rgba(12,4,0,0.95), 0 0 50px rgba(200,60,0,0.2);
+  --ornament-color: #a04010;
+  --particle-color: rgba(255,122,32,0.35);
+  --shimmer-start: #602010;
+  --shimmer-end: #300f00;
+}
+
+/* 12 · Purple Dusk ───────────────────────────── */
+.theme-purple {
+  --app-bg: #080612;
+  --app-fg: #d0b8f0;
+  --panel-bg: #0d0a1e;
+  --panel-border: #251550;
+  --input-bg: #0a0818;
+  --input-fg: #d0b8f0;
+  --border: #251550;
+  --accent: #9060f0;
+  --accent-glow: rgba(144,96,240,0.28);
+  --accent2: #c090ff;
+  --heading: #ead8ff;
+  --muted: #604890;
+  --card-bg: linear-gradient(160deg, #0c0818 0%, #12082a 60%, #080612 100%);
+  --card-text: #d0b8f0;
+  --card-title: #a878f8;
+  --card-meta: #8060c0;
+  --card-border: rgba(144,96,240,0.3);
+  --card-shadow: 0 30px 80px rgba(4,2,12,0.95), 0 0 50px rgba(100,40,200,0.25);
+  --ornament-color: #502880;
+  --particle-color: rgba(144,96,240,0.35);
+  --shimmer-start: #3a1080;
+  --shimmer-end: #1a0840;
+}
+
+/* 13 · Teal Mist ─────────────────────────────── */
+.theme-teal {
+  --app-bg: #050f10;
+  --app-fg: #a8d8d8;
+  --panel-bg: #071416;
+  --panel-border: #103030;
+  --input-bg: #091618;
+  --input-fg: #a8d8d8;
+  --border: #103030;
+  --accent: #30b8b8;
+  --accent-glow: rgba(48,184,184,0.25);
+  --accent2: #60d8d8;
+  --heading: #c8f0f0;
+  --muted: #306060;
+  --card-bg: linear-gradient(160deg, #071214 0%, #0d1e20 60%, #050d0e 100%);
+  --card-text: #a8d8d8;
+  --card-title: #40d0d0;
+  --card-meta: #509090;
+  --card-border: rgba(48,184,184,0.28);
+  --card-shadow: 0 30px 80px rgba(0,6,7,0.9), 0 0 50px rgba(20,120,120,0.25);
+  --ornament-color: #206868;
+  --particle-color: rgba(48,184,184,0.3);
+  --shimmer-start: #106060;
+  --shimmer-end: #082a2a;
+}
+
+/* 14 · Rose Garden ───────────────────────────── */
+.theme-rose {
+  --app-bg: #100508;
+  --app-fg: #f0c0d0;
+  --panel-bg: #180810;
+  --panel-border: #40101c;
+  --input-bg: #14060c;
+  --input-fg: #f0c0d0;
+  --border: #40101c;
+  --accent: #e04878;
+  --accent-glow: rgba(224,72,120,0.26);
+  --accent2: #f080a8;
+  --heading: #ffd0e0;
+  --muted: #703040;
+  --card-bg: linear-gradient(160deg, #150508 0%, #1c0a10 60%, #0e0305 100%);
+  --card-text: #f0c0d0;
+  --card-title: #f05888;
+  --card-meta: #c06878;
+  --card-border: rgba(224,72,120,0.28);
+  --card-shadow: 0 30px 80px rgba(10,0,4,0.95), 0 0 50px rgba(180,30,70,0.25);
+  --ornament-color: #801830;
+  --particle-color: rgba(224,72,120,0.35);
+  --shimmer-start: #581028;
+  --shimmer-end: #2d0812;
+}
+
+/* 15 · Desert Sand ───────────────────────────── */
+.theme-desert {
+  --app-bg: #120e08;
+  --app-fg: #e8c890;
+  --panel-bg: #1a1408;
+  --panel-border: #3d2e10;
+  --input-bg: #161008;
+  --input-fg: #e8c890;
+  --border: #3d2e10;
+  --accent: #d4903a;
+  --accent-glow: rgba(212,144,58,0.25);
+  --accent2: #e8b870;
+  --heading: #f5e0b0;
+  --muted: #806030;
+  --card-bg: linear-gradient(160deg, #d4c090 0%, #c8b080 50%, #bca070 100%);
+  --card-text: #3a2810;
+  --card-title: #6a3d10;
+  --card-meta: #8a5820;
+  --card-border: rgba(140,90,20,0.4);
+  --card-shadow: 0 30px 80px rgba(12,8,0,0.7);
+  --ornament-color: #8a5820;
+  --particle-color: rgba(212,144,58,0.3);
+  --shimmer-start: #604020;
+  --shimmer-end: #301f10;
+}
+
+/* 16 · Snow Silence ──────────────────────────── */
+.theme-snow {
+  --app-bg: #f0f4f8;
+  --app-fg: #2a3440;
+  --panel-bg: #ffffff;
+  --panel-border: #d8e0e8;
+  --input-bg: #f8fafb;
+  --input-fg: #2a3440;
+  --border: #d0d8e0;
+  --accent: #4a80c8;
+  --accent-glow: rgba(74,128,200,0.2);
+  --accent2: #7aa8e0;
+  --heading: #1a2430;
+  --muted: #8090a8;
+  --card-bg: linear-gradient(160deg, #f8f9ff 0%, #f0f2f8 60%, #e8eaf5 100%);
+  --card-text: #2a3440;
+  --card-title: #3060a8;
+  --card-meta: #607090;
+  --card-border: rgba(74,128,200,0.25);
+  --card-shadow: 0 20px 60px rgba(40,60,100,0.15), 0 4px 20px rgba(40,60,100,0.1);
+  --ornament-color: #8090c0;
+  --particle-color: rgba(200,220,255,0.5);
+  --shimmer-start: #7090c0;
+  --shimmer-end: #4060a0;
+}
+
+/* 17 · Ember Glow ────────────────────────────── */
+.theme-ember {
+  --app-bg: #0f0800;
+  --app-fg: #f0c060;
+  --panel-bg: #180d00;
+  --panel-border: #3d2000;
+  --input-bg: #130900;
+  --input-fg: #f0c060;
+  --border: #3d2000;
+  --accent: #ff6a00;
+  --accent-glow: rgba(255,106,0,0.28);
+  --accent2: #ffaa40;
+  --heading: #ffe0a0;
+  --muted: #804020;
+  --card-bg: radial-gradient(ellipse at center bottom, #2a1000 0%, #180800 50%, #0d0400 100%);
+  --card-text: #f0c060;
+  --card-title: #ff7820;
+  --card-meta: #c08040;
+  --card-border: rgba(255,106,0,0.35);
+  --card-shadow: 0 30px 80px rgba(10,4,0,0.95), 0 0 60px rgba(220,80,0,0.25);
+  --ornament-color: #a03800;
+  --particle-color: rgba(255,120,20,0.4);
+  --shimmer-start: #701800;
+  --shimmer-end: #350c00;
+}
+
+/* 18 · Neon Cyber ────────────────────────────── */
+.theme-cyber {
+  --app-bg: #030b0b;
+  --app-fg: #00f5d4;
+  --panel-bg: #050f10;
+  --panel-border: #003d38;
+  --input-bg: #061212;
+  --input-fg: #00f5d4;
+  --border: #003d38;
+  --accent: #00f5d4;
+  --accent-glow: rgba(0,245,212,0.28);
+  --accent2: #00bbff;
+  --heading: #b0fff5;
+  --muted: #206860;
+  --card-bg: linear-gradient(160deg, #040d0d 0%, #061414 60%, #020a0a 100%);
+  --card-text: #00e0c0;
+  --card-title: #00f5d4;
+  --card-meta: #00a89a;
+  --card-border: rgba(0,245,212,0.3);
+  --card-shadow: 0 30px 80px rgba(0,4,4,0.95), 0 0 60px rgba(0,200,180,0.2);
+  --ornament-color: #008080;
+  --particle-color: rgba(0,245,212,0.4);
+  --shimmer-start: #004d48;
+  --shimmer-end: #002428;
+}
+
+/* 19 · Sakura Blossom ────────────────────────── */
+.theme-sakura {
+  --app-bg: #100a0a;
+  --app-fg: #f8d0d8;
+  --panel-bg: #180e0e;
+  --panel-border: #401818;
+  --input-bg: #140c0c;
+  --input-fg: #f8d0d8;
+  --border: #401818;
+  --accent: #f89aaa;
+  --accent-glow: rgba(248,154,170,0.25);
+  --accent2: #ffc8d8;
+  --heading: #fce8ee;
+  --muted: #805060;
+  --card-bg: linear-gradient(160deg, #f8e8ee 0%, #f0d8e8 50%, #e8c8d8 100%);
+  --card-text: #3a1825;
+  --card-title: #b83058;
+  --card-meta: #a05068;
+  --card-border: rgba(200,100,130,0.4);
+  --card-shadow: 0 20px 60px rgba(40,10,20,0.5);
+  --ornament-color: #c06080;
+  --particle-color: rgba(248,154,170,0.4);
+  --shimmer-start: #702040;
+  --shimmer-end: #381020;
+}
+
+/* 20 · Ocean Depths ──────────────────────────── */
+.theme-ocean {
+  --app-bg: #020812;
+  --app-fg: #90c8e8;
+  --panel-bg: #040c1a;
+  --panel-border: #0d2038;
+  --input-bg: #050e1c;
+  --input-fg: #90c8e8;
+  --border: #0d2038;
+  --accent: #1a90d8;
+  --accent-glow: rgba(26,144,216,0.28);
+  --accent2: #50b8f0;
+  --heading: #b8e0f8;
+  --muted: #204060;
+  --card-bg: radial-gradient(ellipse at top, #041428 0%, #020c20 60%, #010810 100%);
+  --card-text: #90c8e8;
+  --card-title: #3ab0e8;
+  --card-meta: #3080a8;
+  --card-border: rgba(26,144,216,0.28);
+  --card-shadow: 0 30px 80px rgba(0,2,8,0.95), 0 0 60px rgba(0,60,120,0.3);
+  --ornament-color: #104870;
+  --particle-color: rgba(26,144,216,0.35);
+  --shimmer-start: #0a3060;
+  --shimmer-end: #051830;
+}
+
+/* 21 · Amber & Smoke ─────────────────────────── */
+.theme-smoke {
+  --app-bg: #0d0d0d;
+  --app-fg: #d8c8a0;
+  --panel-bg: #141414;
+  --panel-border: #2a2518;
+  --input-bg: #111008;
+  --input-fg: #d8c8a0;
+  --border: #2a2518;
+  --accent: #d0a050;
+  --accent-glow: rgba(208,160,80,0.22);
+  --accent2: #e8c880;
+  --heading: #f0e0b0;
+  --muted: #706040;
+  --card-bg: linear-gradient(160deg, #181410 0%, #201c14 60%, #100e08 100%);
+  --card-text: #d8c8a0;
+  --card-title: #d4a840;
+  --card-meta: #a08040;
+  --card-border: rgba(208,160,80,0.25);
+  --card-shadow: 0 30px 80px rgba(4,3,0,0.95), 0 0 50px rgba(150,100,20,0.15);
+  --ornament-color: #786030;
+  --particle-color: rgba(208,160,80,0.3);
+  --shimmer-start: #504020;
+  --shimmer-end: #282010;
+}
+
+/* 22 · Northern Lights ───────────────────────── */
+.theme-aurora {
+  --app-bg: #020808;
+  --app-fg: #a0f8d0;
+  --panel-bg: #040e0e;
+  --panel-border: #0d2818;
+  --input-bg: #061010;
+  --input-fg: #a0f8d0;
+  --border: #0d2818;
+  --accent: #20d890;
+  --accent-glow: rgba(32,216,144,0.28);
+  --accent2: #60f8b8;
+  --heading: #c0fff0;
+  --muted: #206848;
+  --card-bg: linear-gradient(160deg, #040e0a 0%, #081a10 60%, #020a06 100%);
+  --card-text: #a0f8d0;
+  --card-title: #40f0a0;
+  --card-meta: #408868;
+  --card-border: rgba(32,216,144,0.28);
+  --card-shadow: 0 30px 80px rgba(0,4,2,0.95), 0 0 60px rgba(10,150,80,0.25);
+  --ornament-color: #186848;
+  --particle-color: rgba(32,216,144,0.35);
+  --shimmer-start: #0a4830;
+  --shimmer-end: #052818;
+}
+
+/* 23 · Blood Moon ────────────────────────────── */
+.theme-bloodmoon {
+  --app-bg: #0c0302;
+  --app-fg: #f8a878;
+  --panel-bg: #150505;
+  --panel-border: #3d1505;
+  --input-bg: #100404;
+  --input-fg: #f8a878;
+  --border: #3d1505;
+  --accent: #d85020;
+  --accent-glow: rgba(216,80,32,0.28);
+  --accent2: #ff7840;
+  --heading: #ffe0c0;
+  --muted: #804020;
+  --card-bg: radial-gradient(ellipse at top center, #280a02 0%, #180502 60%, #0c0302 100%);
+  --card-text: #f8a878;
+  --card-title: #e06030;
+  --card-meta: #b05030;
+  --card-border: rgba(216,80,32,0.35);
+  --card-shadow: 0 30px 80px rgba(8,1,0,0.95), 0 0 60px rgba(200,40,0,0.3);
+  --ornament-color: #982010;
+  --particle-color: rgba(216,80,32,0.4);
+  --shimmer-start: #601000;
+  --shimmer-end: #300800;
+}
+
+/* 24 · Ivory & Gold ──────────────────────────── */
+.theme-ivory {
+  --app-bg: #f8f4ec;
+  --app-fg: #2a2018;
+  --panel-bg: #fff8f0;
+  --panel-border: #ddd0b8;
+  --input-bg: #fdf8f0;
+  --input-fg: #2a2018;
+  --border: #d8c8a8;
+  --accent: #b88030;
+  --accent-glow: rgba(184,128,48,0.22);
+  --accent2: #d4a050;
+  --heading: #1a1008;
+  --muted: #907050;
+  --card-bg: linear-gradient(160deg, #fdf5e4 0%, #f8ecd0 60%, #f0e0b8 100%);
+  --card-text: #2a2018;
+  --card-title: #7a4a10;
+  --card-meta: #9a6830;
+  --card-border: rgba(184,128,48,0.4);
+  --card-shadow: 0 20px 60px rgba(40,25,10,0.2);
+  --ornament-color: #c09030;
+  --particle-color: rgba(184,128,48,0.3);
+  --shimmer-start: #b08030;
+  --shimmer-end: #785018;
+}
+
+/* 25 · Deep Cosmos ───────────────────────────── */
+.theme-cosmos {
+  --app-bg: #030308;
+  --app-fg: #c0b8e8;
+  --panel-bg: #060612;
+  --panel-border: #181030;
+  --input-bg: #080818;
+  --input-fg: #c0b8e8;
+  --border: #181030;
+  --accent: #8060f8;
+  --accent-glow: rgba(128,96,248,0.28);
+  --accent2: #c0a0ff;
+  --heading: #e0d8ff;
+  --muted: #483880;
+  --card-bg: radial-gradient(ellipse at center, #0c0825 0%, #060518 60%, #030310 100%);
+  --card-text: #c0b8e8;
+  --card-title: #9878ff;
+  --card-meta: #7060a8;
+  --card-border: rgba(128,96,248,0.3);
+  --card-shadow: 0 30px 80px rgba(1,0,6,0.97), 0 0 80px rgba(80,40,200,0.25);
+  --ornament-color: #402880;
+  --particle-color: rgba(128,96,248,0.35);
+  --shimmer-start: #301880;
+  --shimmer-end: #180c40;
+}
+
+/* ─── APP LAYOUT ─────────────────────────────────────────── */
+.app-header {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--panel-bg);
+  border-bottom: 1px solid var(--panel-border);
+  backdrop-filter: blur(12px);
+  overflow: hidden;
+}
+.header-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.85rem 1.5rem; max-width: 1600px; margin: 0 auto;
+}
+.brand { display: flex; flex-direction: column; line-height: 1; gap: 0.18rem; }
+.brand-tamil {
+  font-family: 'Noto Serif Tamil', serif;
+  font-size: 1.5rem; font-weight: 700;
+  color: var(--accent); letter-spacing: 0.02em;
+}
+.brand-roman {
+  font-size: 0.68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.2em;
+  color: var(--accent2); opacity: 0.85;
+}
+.brand-tagline {
+  font-size: 0.6rem; text-transform: uppercase; letter-spacing: 0.15em;
+  color: var(--muted);
+}
+.header-actions { display: flex; gap: 0.5rem; align-items: center; }
+.header-shimmer {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--shimmer-start), var(--accent), var(--shimmer-end), transparent);
+  animation: shimmerSlide 3s ease-in-out infinite;
+}
+@keyframes shimmerSlide {
+  0% { background-position: -200% 0; }
+  100% { background-position: 200% 0; }
+}
+
+.app-main {
+  display: grid;
+  grid-template-columns: 380px 1fr;
+  min-height: calc(100vh - 68px);
+  max-width: 1600px; margin: 0 auto;
+}
+
+/* ─── PANELS ─────────────────────────────────────────────── */
+.panel { padding: 1.25rem; }
+.panel-left {
+  background: var(--panel-bg);
+  border-right: 1px solid var(--panel-border);
+  overflow-y: auto;
+  height: calc(100vh - 68px);
+  position: sticky; top: 68px;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.panel-left::-webkit-scrollbar { width: 4px; }
+.panel-left::-webkit-scrollbar-thumb { background: var(--border); border-radius: 2px; }
+
+.panel-right {
+  padding: 1.5rem 1.75rem;
+  display: flex; flex-direction: column; gap: 1.25rem;
+}
+
+/* ─── CONTROL SECTIONS ───────────────────────────────────── */
+.control-section {
+  background: rgba(255,255,255,0.02);
+  border: 1px solid var(--panel-border);
+  border-radius: 12px;
+  padding: 1rem;
+  margin-bottom: 1rem;
+}
+.section-heading {
+  display: flex; align-items: center; gap: 0.5rem;
+  font-size: 0.78rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.12em;
+  color: var(--accent); margin-bottom: 0.85rem;
+  flex-wrap: wrap;
+}
+.sec-icon { width: 14px; height: 14px; flex-shrink: 0; }
+.sec-sub {
+  font-size: 0.65rem; color: var(--muted);
+  font-weight: 400; text-transform: none; letter-spacing: 0;
+  margin-left: auto;
+}
+
+/* ─── BUTTONS ────────────────────────────────────────────── */
+.btn-icon {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--app-fg); border-radius: 8px;
+  padding: 0.45rem; display: flex; align-items: center; justify-content: center;
+  transition: border-color 0.2s, color 0.2s, background 0.2s;
+}
+.btn-icon:hover { border-color: var(--accent); color: var(--accent); }
+.btn-sm {
+  font-size: 0.75rem; padding: 0.35rem 0.7rem;
+  border-radius: 6px; border: none; font-weight: 600;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-sm:hover { opacity: 0.85; transform: translateY(-1px); }
+.btn-sm:active { transform: translateY(0); }
+.btn-accent { background: var(--accent); color: #fff; }
+.btn-outline {
+  background: transparent; border: 1px solid var(--border);
+  color: var(--app-fg);
+}
+.btn-outline:hover { border-color: var(--accent); color: var(--accent); }
+
+.upload-btn {
+  display: inline-flex; align-items: center; gap: 0.4rem;
+  font-size: 0.75rem; font-weight: 600; padding: 0.35rem 0.7rem;
+  border-radius: 6px; border: 1px dashed var(--border);
+  color: var(--app-fg); background: transparent; cursor: pointer;
+  transition: border-color 0.2s, color 0.2s;
+}
+.upload-btn:hover { border-color: var(--accent); color: var(--accent); }
+
+.upload-row { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.75rem; align-items: center; }
+
+/* ─── POEM TEXTAREA ──────────────────────────────────────── */
+.textarea-wrapper { position: relative; margin-bottom: 0.75rem; }
+.poem-textarea {
+  min-height: 180px; resize: vertical;
+  font-size: 1rem; line-height: 1.8;
+  font-family: 'Noto Sans Tamil', sans-serif;
+  padding: 0.75rem 0.9rem;
+  border-radius: 8px;
+}
+.line-count {
+  position: absolute; bottom: 0.5rem; right: 0.65rem;
+  font-size: 0.65rem; color: var(--muted);
+  pointer-events: none;
+}
+.line-controls { display: flex; gap: 0.5rem; flex-wrap: wrap; margin-bottom: 0.6rem; }
+
+/* ─── SUGGESTION BOX ─────────────────────────────────────── */
+.suggestion-box {
+  background: rgba(255,255,255,0.04); border: 1px solid var(--border);
+  border-radius: 8px; padding: 0.65rem 0.85rem;
+  font-size: 0.8rem; margin-bottom: 0.65rem;
+  color: var(--accent2);
+}
+.suggestion-box ul { margin-top: 0.4rem; }
+.suggestion-box li { margin-bottom: 0.2rem; }
+
+/* ─── STAR RATING ────────────────────────────────────────── */
+.rating-row {
+  display: flex; align-items: center; gap: 0.5rem;
+  flex-wrap: wrap; margin-top: 0.5rem;
+}
+.star-rating { display: flex; gap: 0.15rem; }
+.star {
+  background: none; border: none; font-size: 1.3rem;
+  color: var(--muted); transition: color 0.15s, transform 0.15s;
+  padding: 0; line-height: 1;
+}
+.star.active, .star:hover { color: var(--accent); transform: scale(1.2); }
+.rating-label-val { font-size: 0.75rem; color: var(--muted); }
+
+/* ─── THEME GRID ─────────────────────────────────────────── */
+.theme-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  gap: 0.5rem;
+}
+.theme-swatch {
+  border: 2px solid transparent; border-radius: 10px; overflow: hidden;
+  cursor: pointer; padding: 0; background: none;
+  transition: border-color 0.2s, transform 0.15s;
+  aspect-ratio: 1;
+  display: flex; flex-direction: column;
+}
+.theme-swatch:hover { transform: scale(1.06); border-color: var(--accent); }
+.theme-swatch.active { border-color: var(--accent); box-shadow: 0 0 0 2px var(--accent-glow); }
+.theme-swatch[aria-pressed="true"] { border-color: var(--accent); }
+.swatch-color {
+  flex: 1;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 0.55rem; font-weight: 600; letter-spacing: 0.04em;
+  color: rgba(255,255,255,0.85); text-shadow: 0 1px 3px rgba(0,0,0,0.8);
+  padding: 0.3rem; text-align: center; line-height: 1.3;
+  word-break: break-word;
+}
+
+/* ─── IMAGE CONTROLS ─────────────────────────────────────── */
+.image-controls { margin-top: 0.75rem; display: flex; flex-direction: column; gap: 0.65rem; }
+.control-label {
+  display: block; font-size: 0.72rem; font-weight: 600;
+  color: var(--muted); margin-bottom: 0.3rem; letter-spacing: 0.04em;
+  text-transform: uppercase;
+}
+.position-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 0.3rem;
+}
+.pos-btn {
+  background: var(--input-bg); border: 1px solid var(--border);
+  color: var(--app-fg); border-radius: 6px; padding: 0.3rem;
+  font-size: 0.8rem; transition: background 0.2s, border-color 0.2s;
+}
+.pos-btn.active, .pos-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+.filter-chips { display: flex; flex-wrap: wrap; gap: 0.35rem; }
+.chip {
+  font-size: 0.68rem; font-weight: 600; padding: 0.25rem 0.6rem;
+  border-radius: 20px; border: 1px solid var(--border);
+  background: transparent; color: var(--muted); cursor: pointer;
+  transition: all 0.2s;
+}
+.chip:hover, .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ─── FONT GROUP ─────────────────────────────────────────── */
+.font-group { margin-bottom: 0.85rem; }
+.font-preview {
+  margin-top: 0.4rem; padding: 0.4rem 0.6rem;
+  font-size: 1rem; border-radius: 6px;
+  background: var(--input-bg); border: 1px solid var(--border);
+  color: var(--app-fg); min-height: 2.2rem;
+  transition: font-family 0.3s;
+}
+.align-group { display: flex; gap: 0.4rem; }
+.align-btn {
+  background: var(--input-bg); border: 1px solid var(--border);
+  color: var(--muted); border-radius: 6px; padding: 0.3rem 0.5rem;
+  display: flex; align-items: center; transition: all 0.2s;
+}
+.align-btn.active, .align-btn:hover { background: var(--accent); color: #fff; border-color: var(--accent); }
+
+/* ─── META INPUTS ────────────────────────────────────────── */
+.meta-group { margin-bottom: 0.65rem; }
+.meta-input { font-size: 0.85rem; }
+
+/* ─── EXPORT ─────────────────────────────────────────────── */
+.export-section { background: rgba(var(--accent),0.04); }
+.export-buttons { display: flex; flex-direction: column; gap: 0.5rem; }
+.btn-export {
+  display: flex; align-items: center; gap: 0.55rem;
+  padding: 0.7rem 1rem; border-radius: 8px; border: none;
+  font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em;
+  transition: opacity 0.2s, transform 0.15s;
+}
+.btn-export:hover { opacity: 0.88; transform: translateY(-2px); }
+.btn-export:active { transform: translateY(0); }
+.btn-png { background: var(--accent); color: #fff; }
+.btn-pdf { background: var(--accent2); color: #000; }
+.btn-copy { background: var(--input-bg); border: 1px solid var(--border); color: var(--app-fg); }
+.export-status {
+  margin-top: 0.65rem; font-size: 0.75rem;
+  color: var(--accent2); min-height: 1.4rem; text-align: center;
+}
+
+/* ─── PREVIEW PANEL ──────────────────────────────────────── */
+.preview-header {
+  display: flex; align-items: center; justify-content: space-between;
+  flex-wrap: wrap; gap: 0.5rem;
+}
+.preview-heading {
+  font-size: 0.75rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.15em; color: var(--muted);
+}
+.preview-tag {
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; padding: 0.2rem 0.65rem;
+  background: var(--accent); color: #fff; border-radius: 20px;
+}
+
+.poem-card-wrap {
+  display: flex; justify-content: center; align-items: flex-start;
+  flex: 1;
+}
+
+/* ─── THE POEM CARD ──────────────────────────────────────── */
+.poem-card {
+  position: relative; overflow: hidden;
+  width: 100%; max-width: 680px;
+  min-height: 460px;
+  border-radius: 16px;
+  border: 1px solid var(--card-border);
+  background: var(--card-bg);
+  box-shadow: var(--card-shadow);
+  transition: background 0.5s ease, box-shadow 0.5s ease;
+}
+.card-bg {
+  position: absolute; inset: 0;
+  background-size: cover; background-position: center center;
+  background-repeat: no-repeat;
+  transition: opacity 0.4s, filter 0.4s, background-position 0.3s;
+}
+.card-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(160deg, rgba(0,0,0,0.55) 0%, rgba(0,0,0,0.35) 50%, rgba(0,0,0,0.6) 100%);
+  transition: background 0.4s;
+}
+.card-content {
+  position: relative; z-index: 2;
+  padding: 2.5rem 2.75rem;
+  display: flex; flex-direction: column; gap: 0.75rem;
+  min-height: 460px;
+}
+
+/* ─── ORNAMENTS ──────────────────────────────────────────── */
+.ornament { text-align: center; color: var(--ornament-color); font-size: 0.85rem; }
+.ornament.none { display: none; }
+.ornament.classic::before { content: "────────────────"; letter-spacing: -0.1em; }
+.ornament.double::before { content: "════════════════"; letter-spacing: -0.1em; }
+.ornament.ornate::before { content: "✦ ─────────────────── ✦"; }
+.ornament.dots::before { content: "• • • • • • • • • • • •"; letter-spacing: 0.2em; }
+.ornament.wave::before { content: "∿∿∿∿∿∿∿∿∿∿∿∿∿"; letter-spacing: 0.1em; }
+
+/* ─── POEM CONTENT IN CARD ───────────────────────────────── */
+.poem-title {
+  font-size: 1.4rem; font-weight: 700;
+  color: var(--card-title); letter-spacing: 0.04em;
+  line-height: 1.4; text-align: center;
+  min-height: 0;
+}
+.poem-body {
+  font-size: 1.2rem;
+  color: var(--card-text);
+  line-height: 1.9;
+  flex: 1;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+.poem-placeholder { color: var(--card-meta); font-style: italic; }
+.poem-meta-display {
+  font-size: 0.78rem; color: var(--card-meta);
+  text-align: right; letter-spacing: 0.08em;
+  opacity: 0.85; line-height: 1.6;
+}
+.poem-rating-display {
+  font-size: 1rem; color: var(--accent);
+  text-align: center; letter-spacing: 0.1em;
+  min-height: 0;
+}
+
+/* ─── PARTICLES ──────────────────────────────────────────── */
+.particles {
+  position: absolute; inset: 0; pointer-events: none; z-index: 1;
+  overflow: hidden;
+}
+.particle {
+  position: absolute; border-radius: 50%;
+  background: var(--particle-color);
+  animation: particleDrift linear infinite;
+}
+@keyframes particleDrift {
+  0% { transform: translateY(100%) translateX(0); opacity: 0; }
+  10% { opacity: 1; }
+  90% { opacity: 0.5; }
+  100% { transform: translateY(-10%) translateX(30px); opacity: 0; }
+}
+
+/* ─── MODAL ──────────────────────────────────────────────── */
+.modal-backdrop {
+  position: fixed; inset: 0; z-index: 200;
+  background: rgba(0,0,0,0.7); backdrop-filter: blur(6px);
+  display: flex; align-items: center; justify-content: center;
+  padding: 1rem;
+}
+.modal-backdrop[hidden] { display: none; }
+.modal-box {
+  background: var(--panel-bg); border: 1px solid var(--panel-border);
+  border-radius: 16px; max-width: 540px; width: 100%;
+  box-shadow: 0 30px 80px rgba(0,0,0,0.8);
+  max-height: 80vh; overflow-y: auto;
+}
+.modal-header {
+  display: flex; justify-content: space-between; align-items: center;
+  padding: 1.1rem 1.3rem; border-bottom: 1px solid var(--panel-border);
+}
+.modal-header h2 { font-size: 1rem; font-weight: 700; color: var(--heading); }
+.modal-close {
+  background: none; border: none; font-size: 1.4rem;
+  color: var(--muted); cursor: pointer; line-height: 1;
+}
+.modal-body { padding: 1.2rem 1.3rem; }
+.modal-body h3 { font-size: 0.8rem; font-weight: 700; color: var(--accent); margin: 0.85rem 0 0.4rem; text-transform: uppercase; }
+.modal-body h3:first-child { margin-top: 0; }
+kbd {
+  font-family: monospace; font-size: 0.72rem;
+  background: var(--input-bg); border: 1px solid var(--border);
+  padding: 0.15rem 0.4rem; border-radius: 4px; color: var(--accent2);
+}
+
+/* ─── TOAST ──────────────────────────────────────────────── */
+.toast-container {
+  position: fixed; bottom: 1.25rem; right: 1.25rem; z-index: 300;
+  display: flex; flex-direction: column; gap: 0.5rem; align-items: flex-end;
+}
+.toast {
+  background: var(--panel-bg); border: 1px solid var(--border);
+  border-left: 3px solid var(--accent);
+  padding: 0.6rem 1rem; border-radius: 8px;
+  font-size: 0.8rem; color: var(--app-fg);
+  box-shadow: 0 8px 30px rgba(0,0,0,0.4);
+  animation: toastIn 0.3s ease; max-width: 280px;
+}
+.toast.out { animation: toastOut 0.3s ease forwards; }
+@keyframes toastIn { from { opacity: 0; transform: translateX(20px); } to { opacity: 1; transform: translateX(0); } }
+@keyframes toastOut { to { opacity: 0; transform: translateX(20px); } }
+
+/* ─── RESPONSIVE ─────────────────────────────────────────── */
+@media (max-width: 900px) {
+  .app-main { grid-template-columns: 1fr; }
+  .panel-left {
+    position: static; height: auto; overflow-y: visible;
+    border-right: none; border-bottom: 1px solid var(--panel-border);
+  }
+  .panel-right { padding: 1rem; }
+  .poem-card { max-width: 100%; }
+  .card-content { padding: 1.75rem 1.5rem; }
+}
+@media (max-width: 480px) {
+  .header-inner { padding: 0.7rem 1rem; }
+  .brand-tamil { font-size: 1.2rem; }
+  .theme-grid { grid-template-columns: repeat(auto-fill, minmax(60px, 1fr)); }
+  .export-buttons { flex-direction: column; }
+  .card-content { padding: 1.25rem 1rem; }
+}
+
+/* ─── ACCESSIBILITY ──────────────────────────────────────── */
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.01ms !important; transition-duration: 0.01ms !important; }
+}
