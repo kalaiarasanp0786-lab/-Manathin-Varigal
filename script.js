@@ -180,10 +180,59 @@ function init() {
   bindStarRating();
   bindExport();
   bindMisc();
+  bindAccordions();
+  bindMobileTabs();
   applyTheme('midnight');
   updatePreview();
   spawnParticles();
   loadFromStorage();
+}
+
+/* ══════════════════════════════════════════════════════════
+   ACCORDION — collapsible section headings
+   ══════════════════════════════════════════════════════════ */
+function bindAccordions() {
+  document.querySelectorAll('.section-heading').forEach(heading => {
+    const section = heading.closest('.control-section');
+    heading.addEventListener('click', () => toggleSection(section));
+    heading.addEventListener('keydown', e => {
+      if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); toggleSection(section); }
+    });
+  });
+}
+
+function toggleSection(section) {
+  const collapsed = section.classList.toggle('collapsed');
+  const heading = section.querySelector('.section-heading');
+  if (heading) heading.setAttribute('aria-expanded', String(!collapsed));
+}
+
+/* ══════════════════════════════════════════════════════════
+   MOBILE TABS — Edit / Preview toggle
+   ══════════════════════════════════════════════════════════ */
+function bindMobileTabs() {
+  const tabEdit    = document.getElementById('tabEdit');
+  const tabPreview = document.getElementById('tabPreview');
+  const panelEdit  = document.getElementById('panelEdit');
+  const panelPreview = document.getElementById('panelPreview');
+  if (!tabEdit || !tabPreview) return;
+
+  function showTab(tab) {
+    if (tab === 'edit') {
+      panelEdit.classList.remove('tab-hidden');
+      panelPreview.classList.add('tab-hidden');
+      tabEdit.classList.add('active');
+      tabPreview.classList.remove('active');
+    } else {
+      panelPreview.classList.remove('tab-hidden');
+      panelEdit.classList.add('tab-hidden');
+      tabPreview.classList.add('active');
+      tabEdit.classList.remove('active');
+    }
+  }
+
+  tabEdit.addEventListener('click', () => showTab('edit'));
+  tabPreview.addEventListener('click', () => showTab('preview'));
 }
 
 /* ══════════════════════════════════════════════════════════

@@ -43,260 +43,267 @@
   <main class="app-main" role="main">
 
     <!-- ──────────────────── LEFT PANEL ──────────── -->
-    <aside class="panel panel-left" aria-label="Editor controls">
+    <aside class="panel panel-left" id="panelEdit" aria-label="Editor controls">
 
       <!-- § POEM INPUT -->
       <section class="control-section" aria-labelledby="sec-poem">
-        <h2 class="section-heading" id="sec-poem">
+        <h2 class="section-heading" id="sec-poem" role="button" tabindex="0" aria-expanded="true">
           <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
           கவிதை உள்ளீடு
-          <span class="sec-sub">Poem Input</span>
+          <svg class="sec-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </h2>
-
-        <div class="upload-row">
-          <label class="upload-btn" for="poemFileUpload" aria-label="Upload .txt poem file">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload .txt
-          </label>
-          <input type="file" id="poemFileUpload" accept=".txt" class="sr-only" aria-label="Upload poem text file" />
-          <button class="btn-sm btn-outline" id="btnClear" aria-label="Clear poem">Clear</button>
-          <button class="btn-sm btn-outline" id="btnSample" aria-label="Load sample poem">Sample</button>
-        </div>
-
-        <div class="textarea-wrapper">
-          <textarea
-            id="poemEditor"
-            class="poem-textarea"
-            rows="10"
-            placeholder="இங்கே உங்கள் கவிதையை உள்ளிடுங்கள்…&#10;Enter your Tamil poem here…"
-            aria-label="Poem text editor"
-            spellcheck="false"
-          ></textarea>
-          <div class="line-count" id="lineCount" aria-live="polite">0 lines</div>
-        </div>
-
-        <div class="line-controls">
-          <button class="btn-sm btn-accent" id="btnAddLine" aria-label="Add a blank line">+ Add Line</button>
-          <button class="btn-sm btn-outline" id="btnRemoveLine" aria-label="Remove last line">− Remove Line</button>
-          <button class="btn-sm btn-outline" id="btnSuggest" aria-label="Show grammar suggestions">✦ Suggest</button>
-        </div>
-
-        <div id="suggestionBox" class="suggestion-box" role="status" aria-live="polite" hidden>
-          <strong>✦ Suggestions:</strong>
-          <ul id="suggestionList"></ul>
-        </div>
-
-        <!-- Poem Rating -->
-        <div class="rating-row" role="group" aria-labelledby="rating-label">
-          <span class="control-label" id="rating-label">Poem Quality Rating</span>
-          <div class="star-rating" id="starRating" aria-label="Rate poem quality from 1 to 5 stars">
-            <button class="star" data-val="1" aria-label="1 star">★</button>
-            <button class="star" data-val="2" aria-label="2 stars">★</button>
-            <button class="star" data-val="3" aria-label="3 stars">★</button>
-            <button class="star" data-val="4" aria-label="4 stars">★</button>
-            <button class="star" data-val="5" aria-label="5 stars">★</button>
+        <div class="section-body">
+          <div class="upload-row">
+            <label class="upload-btn" for="poemFileUpload" aria-label="Upload .txt poem file">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload .txt
+            </label>
+            <input type="file" id="poemFileUpload" accept=".txt" class="sr-only" aria-label="Upload poem text file" />
+            <button class="btn-sm btn-outline" id="btnClear" aria-label="Clear poem">Clear</button>
+            <button class="btn-sm btn-outline" id="btnSample" aria-label="Load sample poem">Sample</button>
           </div>
-          <span class="rating-label-val" id="ratingVal" aria-live="polite">—</span>
+
+          <div class="textarea-wrapper">
+            <textarea
+              id="poemEditor"
+              class="poem-textarea"
+              rows="10"
+              placeholder="இங்கே உங்கள் கவிதையை உள்ளிடுங்கள்…&#10;Enter your Tamil poem here…"
+              aria-label="Poem text editor"
+              spellcheck="false"
+            ></textarea>
+            <div class="line-count" id="lineCount" aria-live="polite">0 lines</div>
+          </div>
+
+          <div class="line-controls">
+            <button class="btn-sm btn-accent" id="btnAddLine" aria-label="Add a blank line">+ Add Line</button>
+            <button class="btn-sm btn-outline" id="btnRemoveLine" aria-label="Remove last line">− Remove Line</button>
+            <button class="btn-sm btn-outline" id="btnSuggest" aria-label="Show grammar suggestions">✦ Suggest</button>
+          </div>
+
+          <div id="suggestionBox" class="suggestion-box" role="status" aria-live="polite" hidden>
+            <strong>✦ Suggestions:</strong>
+            <ul id="suggestionList"></ul>
+          </div>
+
+          <div class="rating-row" role="group" aria-labelledby="rating-label">
+            <span class="control-label" id="rating-label">Poem Quality Rating</span>
+            <div class="star-rating" id="starRating" aria-label="Rate poem quality from 1 to 5 stars">
+              <button class="star" data-val="1" aria-label="1 star">★</button>
+              <button class="star" data-val="2" aria-label="2 stars">★</button>
+              <button class="star" data-val="3" aria-label="3 stars">★</button>
+              <button class="star" data-val="4" aria-label="4 stars">★</button>
+              <button class="star" data-val="5" aria-label="5 stars">★</button>
+            </div>
+            <span class="rating-label-val" id="ratingVal" aria-live="polite">—</span>
+          </div>
         </div>
       </section>
 
       <!-- § THEME SELECTOR -->
       <section class="control-section" aria-labelledby="sec-theme">
-        <h2 class="section-heading" id="sec-theme">
+        <h2 class="section-heading" id="sec-theme" role="button" tabindex="0" aria-expanded="true">
           <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="M12 2a10 10 0 0 1 0 20"/><path d="M12 2a7 7 0 0 1 0 14"/></svg>
           தீம் தேர்வு
-          <span class="sec-sub">Theme Selection</span>
+          <svg class="sec-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </h2>
-
-        <div class="theme-grid" role="radiogroup" aria-label="Select poem theme" id="themeGrid">
-          <!-- Themes injected by JS -->
+        <div class="section-body">
+          <div class="theme-grid" role="radiogroup" aria-label="Select poem theme" id="themeGrid">
+            <!-- Themes injected by JS -->
+          </div>
         </div>
       </section>
 
       <!-- § IMAGE UPLOAD -->
-      <section class="control-section" aria-labelledby="sec-image">
-        <h2 class="section-heading" id="sec-image">
+      <section class="control-section collapsed" aria-labelledby="sec-image">
+        <h2 class="section-heading" id="sec-image" role="button" tabindex="0" aria-expanded="false">
           <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
           படம் / Image
-          <span class="sec-sub">Background Image</span>
+          <svg class="sec-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </h2>
-
-        <div class="upload-row">
-          <label class="upload-btn" for="bgImageUpload" aria-label="Upload background image">
-            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
-            Upload Image
-          </label>
-          <input type="file" id="bgImageUpload" accept="image/*" class="sr-only" aria-label="Upload background image" />
-          <button class="btn-sm btn-outline" id="btnRemoveImage" aria-label="Remove background image">Remove</button>
-        </div>
-
-        <div class="image-controls" id="imageControls" hidden>
-          <label class="control-label" for="imgOpacity">Opacity: <span id="opacityVal">60%</span></label>
-          <input type="range" id="imgOpacity" min="10" max="100" value="60" aria-label="Background image opacity" />
-
-          <label class="control-label" for="imgBlur">Blur: <span id="blurVal">0px</span></label>
-          <input type="range" id="imgBlur" min="0" max="20" value="0" aria-label="Background image blur" />
-
-          <label class="control-label">Position</label>
-          <div class="position-grid" role="group" aria-label="Image position">
-            <button class="pos-btn active" data-pos="center center" aria-label="Center">⊕</button>
-            <button class="pos-btn" data-pos="top center" aria-label="Top">↑</button>
-            <button class="pos-btn" data-pos="bottom center" aria-label="Bottom">↓</button>
-            <button class="pos-btn" data-pos="center left" aria-label="Left">←</button>
-            <button class="pos-btn" data-pos="center right" aria-label="Right">→</button>
+        <div class="section-body">
+          <div class="upload-row">
+            <label class="upload-btn" for="bgImageUpload" aria-label="Upload background image">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="17 8 12 3 7 8"/><line x1="12" y1="3" x2="12" y2="15"/></svg>
+              Upload Image
+            </label>
+            <input type="file" id="bgImageUpload" accept="image/*" class="sr-only" aria-label="Upload background image" />
+            <button class="btn-sm btn-outline" id="btnRemoveImage" aria-label="Remove background image">Remove</button>
           </div>
 
-          <label class="control-label">Image Filter</label>
-          <div class="filter-chips" role="group" aria-label="Image filter">
-            <button class="chip active" data-filter="none">None</button>
-            <button class="chip" data-filter="sepia(0.8)">Sepia</button>
-            <button class="chip" data-filter="grayscale(1)">Mono</button>
-            <button class="chip" data-filter="hue-rotate(180deg)">Cinematic</button>
-            <button class="chip" data-filter="brightness(0.6) contrast(1.2)">Fog</button>
-            <button class="chip" data-filter="saturate(2) brightness(0.8)">Vivid</button>
+          <div class="image-controls" id="imageControls" hidden>
+            <label class="control-label" for="imgOpacity">Opacity: <span id="opacityVal">60%</span></label>
+            <input type="range" id="imgOpacity" min="10" max="100" value="60" aria-label="Background image opacity" />
+
+            <label class="control-label" for="imgBlur">Blur: <span id="blurVal">0px</span></label>
+            <input type="range" id="imgBlur" min="0" max="20" value="0" aria-label="Background image blur" />
+
+            <label class="control-label">Position</label>
+            <div class="position-grid" role="group" aria-label="Image position">
+              <button class="pos-btn active" data-pos="center center" aria-label="Center">⊕</button>
+              <button class="pos-btn" data-pos="top center" aria-label="Top">↑</button>
+              <button class="pos-btn" data-pos="bottom center" aria-label="Bottom">↓</button>
+              <button class="pos-btn" data-pos="center left" aria-label="Left">←</button>
+              <button class="pos-btn" data-pos="center right" aria-label="Right">→</button>
+            </div>
+
+            <label class="control-label">Image Filter</label>
+            <div class="filter-chips" role="group" aria-label="Image filter">
+              <button class="chip active" data-filter="none">None</button>
+              <button class="chip" data-filter="sepia(0.8)">Sepia</button>
+              <button class="chip" data-filter="grayscale(1)">Mono</button>
+              <button class="chip" data-filter="hue-rotate(180deg)">Cinematic</button>
+              <button class="chip" data-filter="brightness(0.6) contrast(1.2)">Fog</button>
+              <button class="chip" data-filter="saturate(2) brightness(0.8)">Vivid</button>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- § FONT SELECTION -->
-      <section class="control-section" aria-labelledby="sec-font">
-        <h2 class="section-heading" id="sec-font">
+      <section class="control-section collapsed" aria-labelledby="sec-font">
+        <h2 class="section-heading" id="sec-font" role="button" tabindex="0" aria-expanded="false">
           <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="4 7 4 4 20 4 20 7"/><line x1="9" y1="20" x2="15" y2="20"/><line x1="12" y1="4" x2="12" y2="20"/></svg>
           எழுத்துரு / Font
-          <span class="sec-sub">Font Selection</span>
+          <svg class="sec-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </h2>
+        <div class="section-body">
+          <div class="font-group">
+            <label class="control-label" for="tamilFont">Tamil Font</label>
+            <select id="tamilFont" aria-label="Select Tamil font">
+              <option value="'Noto Sans Tamil', sans-serif">Noto Sans Tamil</option>
+              <option value="'Noto Serif Tamil', serif">Noto Serif Tamil</option>
+              <option value="'Catamaran', sans-serif">Catamaran</option>
+              <option value="'Baloo Thambi 2', cursive">Baloo Thambi 2</option>
+              <option value="'Mukta Malar', sans-serif">Mukta Malar</option>
+              <option value="'Meera Inimai', sans-serif">Meera Inimai</option>
+              <option value="'Arima', cursive">Arima</option>
+              <option value="'Hind Madurai', sans-serif">Hind Madurai</option>
+              <option value="'Tiro Tamil', serif">Tiro Tamil</option>
+              <option value="'Ponnala', sans-serif">Ponnala</option>
+              <option value="'Suranna', serif">Suranna</option>
+            </select>
+            <div class="font-preview" id="tamilFontPreview" aria-label="Tamil font preview">அன்பே சிவம் · Tamil</div>
+          </div>
 
-        <div class="font-group">
-          <label class="control-label" for="tamilFont">Tamil Font</label>
-          <select id="tamilFont" aria-label="Select Tamil font">
-            <option value="'Noto Sans Tamil', sans-serif">Noto Sans Tamil</option>
-            <option value="'Noto Serif Tamil', serif">Noto Serif Tamil</option>
-            <option value="'Catamaran', sans-serif">Catamaran</option>
-            <option value="'Baloo Thambi 2', cursive">Baloo Thambi 2</option>
-            <option value="'Mukta Malar', sans-serif">Mukta Malar</option>
-            <option value="'Meera Inimai', sans-serif">Meera Inimai</option>
-            <option value="'Arima', cursive">Arima</option>
-            <option value="'Hind Madurai', sans-serif">Hind Madurai</option>
-            <option value="'Tiro Tamil', serif">Tiro Tamil</option>
-            <option value="'Ponnala', sans-serif">Ponnala</option>
-            <option value="'Suranna', serif">Suranna</option>
-          </select>
-          <div class="font-preview" id="tamilFontPreview" aria-label="Tamil font preview">அன்பே சிவம் · Tamil</div>
-        </div>
+          <div class="font-group">
+            <label class="control-label" for="englishFont">English Font</label>
+            <select id="englishFont" aria-label="Select English font">
+              <option value="'Playfair Display', serif">Playfair Display</option>
+              <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+              <option value="'Cinzel', serif">Cinzel</option>
+              <option value="'EB Garamond', serif">EB Garamond</option>
+              <option value="'Libre Baskerville', serif">Libre Baskerville</option>
+              <option value="'Lora', serif">Lora</option>
+              <option value="'Merriweather', serif">Merriweather</option>
+              <option value="'Crimson Text', serif">Crimson Text</option>
+              <option value="'Spectral', serif">Spectral</option>
+              <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
+              <option value="'Raleway', sans-serif">Raleway</option>
+              <option value="'Montserrat', sans-serif">Montserrat</option>
+              <option value="'Poppins', sans-serif">Poppins</option>
+              <option value="'Dancing Script', cursive">Dancing Script</option>
+              <option value="'Great Vibes', cursive">Great Vibes</option>
+            </select>
+            <div class="font-preview font-english" id="englishFontPreview" aria-label="English font preview">Poetry · English</div>
+          </div>
 
-        <div class="font-group">
-          <label class="control-label" for="englishFont">English Font</label>
-          <select id="englishFont" aria-label="Select English font">
-            <option value="'Playfair Display', serif">Playfair Display</option>
-            <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
-            <option value="'Cinzel', serif">Cinzel</option>
-            <option value="'EB Garamond', serif">EB Garamond</option>
-            <option value="'Libre Baskerville', serif">Libre Baskerville</option>
-            <option value="'Lora', serif">Lora</option>
-            <option value="'Merriweather', serif">Merriweather</option>
-            <option value="'Crimson Text', serif">Crimson Text</option>
-            <option value="'Spectral', serif">Spectral</option>
-            <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
-            <option value="'Raleway', sans-serif">Raleway</option>
-            <option value="'Montserrat', sans-serif">Montserrat</option>
-            <option value="'Poppins', sans-serif">Poppins</option>
-            <option value="'Dancing Script', cursive">Dancing Script</option>
-            <option value="'Great Vibes', cursive">Great Vibes</option>
-          </select>
-          <div class="font-preview font-english" id="englishFontPreview" aria-label="English font preview">Poetry · English</div>
-        </div>
+          <div class="font-group">
+            <label class="control-label" for="fontSize">Font Size: <span id="fontSizeVal">22px</span></label>
+            <input type="range" id="fontSize" min="14" max="48" value="22" aria-label="Font size" />
+          </div>
 
-        <div class="font-group">
-          <label class="control-label" for="fontSize">Font Size: <span id="fontSizeVal">22px</span></label>
-          <input type="range" id="fontSize" min="14" max="48" value="22" aria-label="Font size" />
-        </div>
+          <div class="font-group">
+            <label class="control-label" for="lineHeight">Line Height: <span id="lineHeightVal">1.9</span></label>
+            <input type="range" id="lineHeight" min="12" max="30" value="19" aria-label="Line height" />
+          </div>
 
-        <div class="font-group">
-          <label class="control-label" for="lineHeight">Line Height: <span id="lineHeightVal">1.9</span></label>
-          <input type="range" id="lineHeight" min="12" max="30" value="19" aria-label="Line height" />
-        </div>
+          <div class="font-group">
+            <label class="control-label" for="letterSpacing">Letter Spacing: <span id="letterSpacingVal">0px</span></label>
+            <input type="range" id="letterSpacing" min="0" max="10" value="0" aria-label="Letter spacing" />
+          </div>
 
-        <div class="font-group">
-          <label class="control-label" for="letterSpacing">Letter Spacing: <span id="letterSpacingVal">0px</span></label>
-          <input type="range" id="letterSpacing" min="0" max="10" value="0" aria-label="Letter spacing" />
-        </div>
-
-        <div class="font-group">
-          <label class="control-label">Text Alignment</label>
-          <div class="align-group" role="group" aria-label="Text alignment">
-            <button class="align-btn active" data-align="left" aria-label="Align left">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
-            </button>
-            <button class="align-btn" data-align="center" aria-label="Align center">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
-            </button>
-            <button class="align-btn" data-align="right" aria-label="Align right">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
-            </button>
+          <div class="font-group">
+            <label class="control-label">Text Alignment</label>
+            <div class="align-group" role="group" aria-label="Text alignment">
+              <button class="align-btn active" data-align="left" aria-label="Align left">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="3" y1="12" x2="15" y2="12"/><line x1="3" y1="18" x2="18" y2="18"/></svg>
+              </button>
+              <button class="align-btn" data-align="center" aria-label="Align center">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="6" y1="12" x2="18" y2="12"/><line x1="4" y1="18" x2="20" y2="18"/></svg>
+              </button>
+              <button class="align-btn" data-align="right" aria-label="Align right">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="3" y1="6" x2="21" y2="6"/><line x1="9" y1="12" x2="21" y2="12"/><line x1="6" y1="18" x2="21" y2="18"/></svg>
+              </button>
+            </div>
           </div>
         </div>
       </section>
 
       <!-- § POEM METADATA -->
-      <section class="control-section" aria-labelledby="sec-meta">
-        <h2 class="section-heading" id="sec-meta">
+      <section class="control-section collapsed" aria-labelledby="sec-meta">
+        <h2 class="section-heading" id="sec-meta" role="button" tabindex="0" aria-expanded="false">
           <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="8" y1="6" x2="21" y2="6"/><line x1="8" y1="12" x2="21" y2="12"/><line x1="8" y1="18" x2="21" y2="18"/><line x1="3" y1="6" x2="3.01" y2="6"/><line x1="3" y1="12" x2="3.01" y2="12"/><line x1="3" y1="18" x2="3.01" y2="18"/></svg>
-          மெட்டாடேட்டா
-          <span class="sec-sub">Poem Details</span>
+          மெட்டாடேட்டா / Details
+          <svg class="sec-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </h2>
-        <div class="meta-group">
-          <label class="control-label" for="poemTitle">Title / தலைப்பு</label>
-          <input type="text" id="poemTitle" class="meta-input" placeholder="கவிதையின் தலைப்பு…" aria-label="Poem title" />
-        </div>
-        <div class="meta-group">
-          <label class="control-label" for="poemAuthor">Author / கவிஞர்</label>
-          <input type="text" id="poemAuthor" class="meta-input" placeholder="கவிஞர் பெயர்…" aria-label="Poet name" />
-        </div>
-        <div class="meta-group">
-          <label class="control-label" for="poemYear">Year / ஆண்டு</label>
-          <input type="text" id="poemYear" class="meta-input" placeholder="2024" aria-label="Year" />
-        </div>
-        <div class="meta-group">
-          <label class="control-label" for="borderStyle">Decorative Border</label>
-          <select id="borderStyle" aria-label="Select border style">
-            <option value="none">No Border</option>
-            <option value="classic">Classic Line</option>
-            <option value="double">Double Line</option>
-            <option value="ornate">Ornate ✦</option>
-            <option value="dots">Dotted</option>
-            <option value="wave">Wave ~</option>
-          </select>
+        <div class="section-body">
+          <div class="meta-group">
+            <label class="control-label" for="poemTitle">Title / தலைப்பு</label>
+            <input type="text" id="poemTitle" class="meta-input" placeholder="கவிதையின் தலைப்பு…" aria-label="Poem title" />
+          </div>
+          <div class="meta-group">
+            <label class="control-label" for="poemAuthor">Author / கவிஞர்</label>
+            <input type="text" id="poemAuthor" class="meta-input" placeholder="கவிஞர் பெயர்…" aria-label="Poet name" />
+          </div>
+          <div class="meta-group">
+            <label class="control-label" for="poemYear">Year / ஆண்டு</label>
+            <input type="text" id="poemYear" class="meta-input" placeholder="2024" aria-label="Year" />
+          </div>
+          <div class="meta-group">
+            <label class="control-label" for="borderStyle">Decorative Border</label>
+            <select id="borderStyle" aria-label="Select border style">
+              <option value="none">No Border</option>
+              <option value="classic">Classic Line</option>
+              <option value="double">Double Line</option>
+              <option value="ornate">Ornate ✦</option>
+              <option value="dots">Dotted</option>
+              <option value="wave">Wave ~</option>
+            </select>
+          </div>
         </div>
       </section>
 
       <!-- § EXPORT -->
-      <section class="control-section export-section" aria-labelledby="sec-export">
-        <h2 class="section-heading" id="sec-export">
+      <section class="control-section" aria-labelledby="sec-export">
+        <h2 class="section-heading" id="sec-export" role="button" tabindex="0" aria-expanded="true">
           <svg class="sec-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
-          பதிவிறக்கம்
-          <span class="sec-sub">Export</span>
+          பதிவிறக்கம் / Export
+          <svg class="sec-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </h2>
-        <div class="export-buttons">
-          <button class="btn-export btn-png" id="btnExportPNG" aria-label="Download as PNG image">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
-            Download PNG
-          </button>
-          <button class="btn-export btn-pdf" id="btnExportPDF" aria-label="Download as PDF">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
-            Download PDF
-          </button>
-          <button class="btn-export btn-copy" id="btnCopyText" aria-label="Copy poem text">
-            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
-            Copy Text
-          </button>
+        <div class="section-body">
+          <div class="export-buttons">
+            <button class="btn-export btn-png" id="btnExportPNG" aria-label="Download as PNG image">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><polyline points="21 15 16 10 5 21"/></svg>
+              Download PNG
+            </button>
+            <button class="btn-export btn-pdf" id="btnExportPDF" aria-label="Download as PDF">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><polyline points="10 9 9 9 8 9"/></svg>
+              Download PDF
+            </button>
+            <button class="btn-export btn-copy" id="btnCopyText" aria-label="Copy poem text">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>
+              Copy Text
+            </button>
+          </div>
+          <div id="exportStatus" class="export-status" role="status" aria-live="polite"></div>
         </div>
-        <div id="exportStatus" class="export-status" role="status" aria-live="polite"></div>
       </section>
 
     </aside><!-- /panel-left -->
 
     <!-- ──────────────────── RIGHT PANEL / PREVIEW ──── -->
-    <section class="panel panel-right" aria-label="Live poem preview">
+    <section class="panel panel-right" id="panelPreview" aria-label="Live poem preview">
       <div class="preview-header">
         <h2 class="preview-heading">Live Preview</h2>
         <span class="preview-tag" id="activeThemeName">Midnight Blue</span>
@@ -305,41 +312,35 @@
       <!-- THE POEM CARD — this is what gets exported -->
       <div class="poem-card-wrap" id="poemCardWrap">
         <article class="poem-card" id="poemCard" aria-label="Poem preview card">
-          <!-- Background image layer -->
           <div class="card-bg" id="cardBg" aria-hidden="true"></div>
-          <!-- Overlay -->
           <div class="card-overlay" id="cardOverlay" aria-hidden="true"></div>
-
-          <!-- Animated particles -->
           <div class="particles" id="particles" aria-hidden="true"></div>
-
-          <!-- Content -->
           <div class="card-content">
-            <!-- Border top ornament -->
             <div class="ornament ornament-top" id="ornamentTop" aria-hidden="true"></div>
-
-            <!-- Title -->
             <div class="poem-title" id="previewTitle" aria-label="Poem title"></div>
-
-            <!-- Poem body -->
             <div class="poem-body" id="previewBody" aria-label="Poem content">
               <p class="poem-placeholder">உங்கள் கவிதை இங்கே தோன்றும்…<br><span style="font-size:0.75em;opacity:0.6">Your poem will appear here…</span></p>
             </div>
-
-            <!-- Author / meta -->
             <div class="poem-meta-display" id="previewMeta" aria-label="Poem author and details"></div>
-
-            <!-- Star rating display -->
             <div class="poem-rating-display" id="previewRating" aria-label="Poem rating"></div>
-
-            <!-- Border bottom ornament -->
             <div class="ornament ornament-bottom" id="ornamentBottom" aria-hidden="true"></div>
           </div>
         </article>
       </div>
-
     </section><!-- /panel-right -->
   </main>
+
+  <!-- ══════════════════════ MOBILE TAB BAR ══ -->
+  <nav class="mobile-tabs" aria-label="Switch between editor and preview">
+    <button class="tab-btn active" id="tabEdit" aria-label="Edit poem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 20h9"/><path d="M16.5 3.5a2.121 2.121 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+      Edit
+    </button>
+    <button class="tab-btn" id="tabPreview" aria-label="Preview poem">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+      Preview
+    </button>
+  </nav>
 
   <!-- ══════════════════════════════════════ HELP MODAL ══ -->
   <div class="modal-backdrop" id="helpModal" role="dialog" aria-modal="true" aria-labelledby="helpTitle" hidden>
@@ -371,7 +372,7 @@
           <li>Use the image filters for cinematic effects.</li>
           <li>The "Suggest" button gives writing tips.</li>
           <li>Rate your poem with the star control.</li>
-          <li>Themes support animated backgrounds.</li>
+          <li>Tap section headers to expand/collapse them.</li>
         </ul>
       </div>
     </div>
