@@ -201,6 +201,7 @@ const state = {
   letterSpacing: 0,
   textAlign: 'left',
   borderStyle: 'none',
+  fontRanges: [],   // [{start, end, font}] — per-selection font overrides
 };
 
 /* ══════════════════════════════════════════════════════════
@@ -242,6 +243,9 @@ const el = {
   btnAddLine:       $('btnAddLine'),
   btnRemoveLine:    $('btnRemoveLine'),
   btnSuggest:       $('btnSuggest'),
+  btnApplyTamilFont:$('btnApplyTamilFont'),
+  btnClearRanges:   $('btnClearRanges'),
+  fontHint:         $('fontHint'),
   btnRemoveImage:   $('btnRemoveImage'),
   btnExportPNG:     $('btnExportPNG'),
   btnExportPDF:     $('btnExportPDF'),
@@ -615,12 +619,82 @@ function applyBgImage() {
 /* ══════════════════════════════════════════════════════════
    FONT CONTROLS
    ══════════════════════════════════════════════════════════ */
-function bindFontControls() {
-  el.tamilFont.addEventListener('change', () => {
-    state.tamilFont = el.tamilFont.value;
-    el.tamilFontPreview.style.fontFamily = state.tamilFont;
+/* Apply a font to the current textarea selection (or whole editor if no selection) */
+function applyFontToSelection(fontFamily) {
+  const ta = el.poemEditor;
+  const start = ta.selectionStart;
+  const end   = ta.selectionEnd;
+
+  if (start === end) {
+    // No selection → change global default font
+    state.tamilFont = fontFamily;
+    el.tamilFontPreview.style.fontFamily = fontFamily;
+    ta.style.fontFamily = fontFamily;
     updatePreview();
     saveToStorage();
+    toast('Default font updated');
+    return;
+  }
+
+  // Has selection → add/replace range
+  // Remove any existing ranges that are fully inside this selection
+  state.fontRanges = state.fontRanges.filter(r => !(r.start >= start && r.end <= end));
+  // Split ranges that straddle the boundary
+  const newRanges = [];
+  state.fontRanges.forEach(r => {
+    if (r.end > start && r.start < end) {
+      // Partial overlap — keep parts outside the new range
+      if (r.start < start) newRanges.push({ start: r.start, end: start, font: r.font });
+      if (r.end   > end)   newRanges.push({ start: end,   end: r.end,  font: r.font });
+    } else {
+      newRanges.push(r);
+    }
+  });
+  newRanges.push({ start, end, font: fontFamily });
+  newRanges.sort((a, b) => a.start - b.start);
+  state.fontRanges = newRanges;
+
+  updateRangeCountHint();
+  updatePreview();
+  saveToStorage();
+  toast(`Font applied to ${end - start} chars ✦`);
+  ta.focus();
+  ta.setSelectionRange(start, end);
+}
+
+function updateRangeCountHint() {
+  if (!el.fontHint) return;
+  const n = state.fontRanges.length;
+  if (n === 0) {
+    el.fontHint.textContent = '💡 Select text above, then change font to apply it to just that selection.';
+  } else {
+    el.fontHint.textContent = `✦ ${n} font range${n > 1 ? 's' : ''} active in this poem.`;
+  }
+}
+
+function bindFontControls() {
+  // Initialise textarea to show the default Tamil font
+  el.poemEditor.style.fontFamily = state.tamilFont;
+
+  // Tamil font dropdown — on change, check for selection
+  el.tamilFont.addEventListener('change', () => {
+    const fontFamily = el.tamilFont.value;
+    el.tamilFontPreview.style.fontFamily = fontFamily;
+    applyFontToSelection(fontFamily);
+  });
+
+  // Explicit "Apply to selection" button
+  el.btnApplyTamilFont.addEventListener('click', () => {
+    applyFontToSelection(el.tamilFont.value);
+  });
+
+  // Clear all ranges
+  el.btnClearRanges.addEventListener('click', () => {
+    state.fontRanges = [];
+    updateRangeCountHint();
+    updatePreview();
+    saveToStorage();
+    toast('Font ranges cleared');
   });
 
   el.englishFont.addEventListener('change', () => {
@@ -710,6 +784,42 @@ function bindStarRating() {
 }
 
 /* ══════════════════════════════════════════════════════════
+   RICH FONT RANGE ENGINE
+   ══════════════════════════════════════════════════════════ */
+function escHtml(str) {
+  return str.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+/**
+ * Build HTML for the poem body, inserting <span style="font-family:...">
+ * around any character ranges that have per-selection font overrides.
+ * The rest of the text uses the default font inherited from the parent.
+ */
+function buildRichPoemHTML(text, ranges) {
+  if (!text) return '';
+  if (!ranges || ranges.length === 0) return escHtml(text);
+
+  // Sort by start; remove zero-length ranges
+  const sorted = ranges
+    .filter(r => r.start < r.end && r.end <= text.length)
+    .sort((a, b) => a.start - b.start);
+
+  let html = '';
+  let pos  = 0;
+
+  for (const r of sorted) {
+    if (r.start < pos) continue;   // skip fully overlapped
+    if (r.start > pos) {
+      html += escHtml(text.slice(pos, r.start));
+    }
+    html += `<span style="font-family:${r.font}">${escHtml(text.slice(r.start, r.end))}</span>`;
+    pos = r.end;
+  }
+  if (pos < text.length) html += escHtml(text.slice(pos));
+  return html;
+}
+
+/* ══════════════════════════════════════════════════════════
    PREVIEW UPDATE
    ══════════════════════════════════════════════════════════ */
 function updatePreview() {
@@ -719,23 +829,28 @@ function updatePreview() {
   el.previewTitle.style.display = title ? 'block' : 'none';
   el.previewTitle.style.fontFamily = state.tamilFont;
 
-  // Body
+  // Body — build rich HTML preserving per-selection fonts
   const poem = el.poemEditor.value;
   if (poem.trim()) {
+    const richInner = buildRichPoemHTML(poem, state.fontRanges);
+    // Replace literal newlines with <br> so they render inside a block element
+    const lined = richInner.replace(/\n/g, '<br>');
+
     el.previewBody.innerHTML = '';
-    const pre = document.createElement('pre');
-    pre.style.cssText = `
-      font-family: ${state.tamilFont};
-      font-size: ${state.fontSize}px;
-      line-height: ${state.lineHeight};
-      letter-spacing: ${state.letterSpacing}px;
-      text-align: ${state.textAlign};
-      color: var(--card-text);
-      white-space: pre-wrap; word-break: break-word;
-      margin: 0;
-    `;
-    pre.textContent = poem;
-    el.previewBody.appendChild(pre);
+    const div = document.createElement('div');
+    div.style.cssText = [
+      `font-family: ${state.tamilFont}`,
+      `font-size: ${state.fontSize}px`,
+      `line-height: ${state.lineHeight}`,
+      `letter-spacing: ${state.letterSpacing}px`,
+      `text-align: ${state.textAlign}`,
+      `color: var(--card-text)`,
+      `white-space: pre-wrap`,
+      `word-break: break-word`,
+      `margin: 0`,
+    ].join(';');
+    div.innerHTML = lined;
+    el.previewBody.appendChild(div);
   } else {
     el.previewBody.innerHTML = '<p class="poem-placeholder">உங்கள் கவிதை இங்கே தோன்றும்…<br><span style="font-size:0.75em;opacity:0.6">Your poem will appear here…</span></p>';
   }
@@ -933,6 +1048,7 @@ function saveToStorage() {
       theme: state.currentTheme,
       tamilFont: el.tamilFont.value,
       englishFont: el.englishFont.value,
+      fontRanges: state.fontRanges,
     };
     localStorage.setItem('mv_poem_data', JSON.stringify(data));
   } catch(_) {}
@@ -952,11 +1068,16 @@ function loadFromStorage() {
       el.tamilFont.value = data.tamilFont;
       state.tamilFont = data.tamilFont;
       el.tamilFontPreview.style.fontFamily = data.tamilFont;
+      el.poemEditor.style.fontFamily = data.tamilFont;
     }
     if (data.englishFont) {
       el.englishFont.value = data.englishFont;
       state.englishFont = data.englishFont;
       el.englishFontPreview.style.fontFamily = data.englishFont;
+    }
+    if (Array.isArray(data.fontRanges)) {
+      state.fontRanges = data.fontRanges;
+      updateRangeCountHint();
     }
     updateLineCount();
     updatePreview();

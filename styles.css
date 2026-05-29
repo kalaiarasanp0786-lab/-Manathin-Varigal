@@ -934,14 +934,41 @@ li { margin-bottom: 0.35rem; }
 .chip:hover, .chip.active { background: var(--accent); color: #fff; border-color: var(--accent); }
 
 /* ─── FONT GROUP ─────────────────────────────────────────── */
-.font-group { margin-bottom: 0.75rem; }
+.font-group { margin-bottom: 0.9rem; }
 .font-preview {
   margin-top: 0.35rem; padding: 0.4rem 0.6rem;
-  font-size: 1rem; border-radius: 6px;
+  font-size: 1.05rem; border-radius: 6px;
   background: var(--input-bg); border: 1px solid var(--border);
-  color: var(--app-fg); min-height: 2rem;
-  transition: font-family 0.3s;
+  color: var(--app-fg); min-height: 2.1rem;
+  transition: font-family 0.3s ease;
+  unicode-bidi: plaintext;
 }
+
+/* ── Per-selection font application controls ─────────────── */
+.font-apply-row {
+  display: flex; gap: 0.5rem; margin-top: 0.45rem; flex-wrap: wrap;
+}
+.btn-font-apply {
+  flex: 1; min-height: 32px;
+  background: rgba(91,140,255,0.12); border: 1px solid var(--accent);
+  color: var(--accent); border-radius: 7px; font-size: 0.78rem;
+  font-weight: 600; cursor: pointer; transition: all 0.2s; padding: 0 0.6rem;
+}
+.btn-font-apply:hover { background: var(--accent); color: #fff; }
+.btn-font-clear {
+  min-height: 32px; padding: 0 0.6rem;
+  background: rgba(239,68,68,0.08); border: 1px solid rgba(239,68,68,0.35);
+  color: #ef9090; border-radius: 7px; font-size: 0.78rem;
+  font-weight: 600; cursor: pointer; transition: all 0.2s;
+}
+.btn-font-clear:hover { background: rgba(239,68,68,0.2); color: #ff8080; }
+.font-hint {
+  margin: 0.35rem 0 0; font-size: 0.73rem; color: var(--muted);
+  line-height: 1.4; padding: 0.3rem 0.5rem;
+  background: rgba(255,255,255,0.03); border-radius: 5px;
+  border-left: 2px solid var(--accent-glow);
+}
+
 .align-group { display: flex; gap: 0.4rem; }
 .align-btn {
   background: var(--input-bg); border: 1px solid var(--border);

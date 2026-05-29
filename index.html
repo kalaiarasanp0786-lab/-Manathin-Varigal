@@ -9,7 +9,10 @@
   <!-- Google Fonts: Tamil + English -->
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;600;700&family=Noto+Serif+Tamil:ital,wght@0,300;0,400;0,700;1,400&family=Catamaran:wght@300;400;600;700&family=Baloo+Thambi+2:wght@400;600;700&family=Mukta+Malar:wght@300;400;600;700&family=Meera+Inimai&family=Arima:wght@300;400;700&family=Hind+Madurai:wght@300;400;600;700&family=Tiro+Tamil:ital@0;1&family=Ponnala&family=Suranna&family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Cinzel:wght@400;600;900&family=EB+Garamond:ital,wght@0,400;1,400&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Lora:ital,wght@0,400;1,400&family=Merriweather:ital,wght@0,300;0,400;1,300&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Spectral:ital,wght@0,300;0,400;1,400&family=Josefin+Sans:ital,wght@0,300;0,400;0,600;1,400&family=Raleway:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:ital,wght@0,300;0,400;0,600;1,400&family=Dancing+Script:wght@400;600;700&family=Great+Vibes&family=Poppins:ital,wght@0,300;0,400;0,600;1,400&display=swap" />
+  <!-- Tamil fonts — Classical, Modern, Handwriting, Literary -->
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+Tamil:wght@300;400;600;700&family=Noto+Serif+Tamil:ital,wght@0,300;0,400;0,700;1,400&family=Catamaran:wght@300;400;600;700&family=Baloo+Thambi+2:wght@400;600;700&family=Mukta+Malar:wght@300;400;600;700&family=Meera+Inimai&family=Arima:wght@300;400;700&family=Hind+Madurai:wght@300;400;600;700&family=Tiro+Tamil:ital@0;1&family=Ponnala&family=Suranna&family=Kavivanar&display=swap" rel="stylesheet" />
+  <!-- English fonts — Serif, Sans, Handwriting -->
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;1,400&family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300&family=Cinzel:wght@400;600;900&family=EB+Garamond:ital,wght@0,400;1,400&family=Libre+Baskerville:ital,wght@0,400;1,400&family=Lora:ital,wght@0,400;1,400&family=Merriweather:ital,wght@0,300;0,400;1,300&family=Crimson+Text:ital,wght@0,400;0,600;1,400&family=Spectral:ital,wght@0,300;0,400;1,400&family=Josefin+Sans:ital,wght@0,300;0,400;0,600;1,400&family=Raleway:ital,wght@0,300;0,400;0,600;1,400&family=Montserrat:ital,wght@0,300;0,400;0,600;1,400&family=Dancing+Script:wght@400;600;700&family=Great+Vibes&family=Poppins:ital,wght@0,300;0,400;0,600;1,400&display=swap" rel="stylesheet" />
 
   <!-- html2canvas + jsPDF via CDN -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/html2canvas/1.4.1/html2canvas.min.js" defer></script>
@@ -168,42 +171,73 @@
           <svg class="sec-chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><polyline points="6 9 12 15 18 9"/></svg>
         </h2>
         <div class="section-body">
+
+          <!-- ── Tamil fonts ─────────────────── -->
           <div class="font-group">
-            <label class="control-label" for="tamilFont">Tamil Font</label>
+            <label class="control-label" for="tamilFont">தமிழ் எழுத்துரு / Tamil Font</label>
             <select id="tamilFont" aria-label="Select Tamil font">
-              <option value="'Noto Sans Tamil', sans-serif">Noto Sans Tamil</option>
-              <option value="'Noto Serif Tamil', serif">Noto Serif Tamil</option>
-              <option value="'Catamaran', sans-serif">Catamaran</option>
-              <option value="'Baloo Thambi 2', cursive">Baloo Thambi 2</option>
-              <option value="'Mukta Malar', sans-serif">Mukta Malar</option>
-              <option value="'Meera Inimai', sans-serif">Meera Inimai</option>
-              <option value="'Arima', cursive">Arima</option>
-              <option value="'Hind Madurai', sans-serif">Hind Madurai</option>
-              <option value="'Tiro Tamil', serif">Tiro Tamil</option>
-              <option value="'Ponnala', sans-serif">Ponnala</option>
-              <option value="'Suranna', serif">Suranna</option>
+              <optgroup label="Classical / இலக்கிய">
+                <option value="'Tiro Tamil', serif">Tiro Tamil</option>
+                <option value="'Noto Serif Tamil', serif">Noto Serif Tamil</option>
+                <option value="'Suranna', serif">Suranna</option>
+              </optgroup>
+              <optgroup label="Modern / நவீன">
+                <option value="'Noto Sans Tamil', sans-serif" selected>Noto Sans Tamil</option>
+                <option value="'Catamaran', sans-serif">Catamaran</option>
+                <option value="'Hind Madurai', sans-serif">Hind Madurai</option>
+                <option value="'Mukta Malar', sans-serif">Mukta Malar</option>
+              </optgroup>
+              <optgroup label="Handwriting / கைவரிசை">
+                <option value="'Kavivanar', cursive">Kavivanar</option>
+                <option value="'Baloo Thambi 2', cursive">Baloo Thambi 2</option>
+                <option value="'Meera Inimai', cursive">Meera Inimai</option>
+              </optgroup>
+              <optgroup label="Literary / இலக்கணம்">
+                <option value="'Arima', cursive">Arima Madurai</option>
+                <option value="'Ponnala', sans-serif">Ponnala</option>
+              </optgroup>
+              <optgroup label="System (device) / சாதன">
+                <option value="Vijaya, 'Noto Sans Tamil', sans-serif">Vijaya</option>
+                <option value="Latha, 'Noto Sans Tamil', sans-serif">Latha</option>
+              </optgroup>
             </select>
-            <div class="font-preview" id="tamilFontPreview" aria-label="Tamil font preview">அன்பே சிவம் · Tamil</div>
+            <div class="font-preview" id="tamilFontPreview" aria-label="Tamil font preview">அன்பே சிவம் — Tamil</div>
+            <div class="font-apply-row">
+              <button id="btnApplyTamilFont" class="btn-font-apply" title="Select text in editor, then click to apply font to that selection only">
+                ↳ Apply to selection
+              </button>
+              <button id="btnClearRanges" class="btn-font-clear" title="Remove all per-selection font overrides">
+                ✕ Clear ranges
+              </button>
+            </div>
+            <p class="font-hint" id="fontHint">💡 Select text above, then change font to apply it to just that selection.</p>
           </div>
 
+          <!-- ── English fonts ──────────────── -->
           <div class="font-group">
-            <label class="control-label" for="englishFont">English Font</label>
+            <label class="control-label" for="englishFont">English Font (metadata)</label>
             <select id="englishFont" aria-label="Select English font">
-              <option value="'Playfair Display', serif">Playfair Display</option>
-              <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
-              <option value="'Cinzel', serif">Cinzel</option>
-              <option value="'EB Garamond', serif">EB Garamond</option>
-              <option value="'Libre Baskerville', serif">Libre Baskerville</option>
-              <option value="'Lora', serif">Lora</option>
-              <option value="'Merriweather', serif">Merriweather</option>
-              <option value="'Crimson Text', serif">Crimson Text</option>
-              <option value="'Spectral', serif">Spectral</option>
-              <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
-              <option value="'Raleway', sans-serif">Raleway</option>
-              <option value="'Montserrat', sans-serif">Montserrat</option>
-              <option value="'Poppins', sans-serif">Poppins</option>
-              <option value="'Dancing Script', cursive">Dancing Script</option>
-              <option value="'Great Vibes', cursive">Great Vibes</option>
+              <optgroup label="Serif / Classic">
+                <option value="'Playfair Display', serif">Playfair Display</option>
+                <option value="'Cormorant Garamond', serif">Cormorant Garamond</option>
+                <option value="'Cinzel', serif">Cinzel</option>
+                <option value="'EB Garamond', serif">EB Garamond</option>
+                <option value="'Libre Baskerville', serif">Libre Baskerville</option>
+                <option value="'Lora', serif">Lora</option>
+                <option value="'Merriweather', serif">Merriweather</option>
+                <option value="'Crimson Text', serif">Crimson Text</option>
+                <option value="'Spectral', serif">Spectral</option>
+              </optgroup>
+              <optgroup label="Sans-serif / Minimal">
+                <option value="'Josefin Sans', sans-serif">Josefin Sans</option>
+                <option value="'Raleway', sans-serif">Raleway</option>
+                <option value="'Montserrat', sans-serif">Montserrat</option>
+                <option value="'Poppins', sans-serif">Poppins</option>
+              </optgroup>
+              <optgroup label="Handwriting">
+                <option value="'Dancing Script', cursive">Dancing Script</option>
+                <option value="'Great Vibes', cursive">Great Vibes</option>
+              </optgroup>
             </select>
             <div class="font-preview font-english" id="englishFontPreview" aria-label="English font preview">Poetry · English</div>
           </div>
