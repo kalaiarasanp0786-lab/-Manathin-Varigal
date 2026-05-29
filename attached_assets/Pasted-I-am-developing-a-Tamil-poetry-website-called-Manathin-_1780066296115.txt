@@ -1,0 +1,214 @@
+I am developing a Tamil poetry website called “Manathin Varigal”.
+
+The website allows users to:
+
+* upload Tamil poems
+* customize themes
+* change fonts
+* add images
+* edit poem styling
+
+But currently there are several problems that need to be fixed.
+
+---
+
+1. POEM THEME ISSUE
+
+---
+
+Current problem:
+When I change the theme of one poem, the entire website theme changes.
+
+Required fix:
+
+* Theme changes should apply ONLY to the selected poem card or poem preview.
+* The website UI theme and poem theme must be separated.
+* Each poem should maintain its own styling independently.
+
+Need separate controls for:
+
+* poem background color
+* text color
+* font
+* borders
+* shadows
+* gradients
+
+Do NOT change:
+
+* navbar
+* sidebar
+* full app background
+* editor panel
+
+Please create:
+
+* global website theme state
+* local poem theme state
+
+---
+
+2. TAMIL POEM SUGGESTION FEATURE
+
+---
+
+Current problem:
+The “Suggestion” button is not working properly.
+
+Required fix:
+When the user clicks the Suggestion button, the AI should:
+
+* analyze Tamil spelling mistakes
+* detect grammar issues
+* suggest better poetic Tamil words
+* improve emotional depth
+* suggest literary vocabulary
+* improve poetic flow
+* act like a senior Tamil poet
+
+The output should include:
+
+1. Spelling corrections
+2. Better word suggestions
+3. Poetic improvements
+4. Emotional tone analysis
+5. Final improved poem version
+
+Important:
+
+* Tamil Unicode support must work correctly
+* UTF-8 Tamil rendering should not break
+* Tamil text processing must be accurate
+
+---
+
+3. FONT CHANGE ISSUE
+
+---
+
+Current problem:
+Font changing is not working correctly.
+
+Required fix:
+When the user:
+
+* selects specific letters or words
+* and clicks a font
+
+Only the selected text should change font.
+
+Need:
+
+* rich text editor behavior
+* partial text styling support
+* Tamil + English font support
+
+Suggested Tamil fonts:
+
+* Noto Sans Tamil
+* Noto Serif Tamil
+* Hind Madurai
+* Catamaran
+
+---
+
+4. IMAGE FEATURE IMPROVEMENT
+
+---
+
+Current problem:
+Adding background image affects the full card badly.
+
+Required fix:
+Create TWO separate image options.
+
+A) Background Image
+
+* full poem card background
+
+B) Decorative Side Image
+
+* image on left side
+* right side
+* corner decorations
+* floating image support
+
+Features needed:
+
+* resize
+* drag position
+* opacity control
+* rounded corners
+* shadow effects
+
+Do NOT always force image as full background.
+
+---
+
+5. MORE THEMES
+
+---
+
+Please add more modern themes:
+
+* Midnight Blue
+* Vintage Paper
+* Sangam Style
+* Temple Stone
+* Rose Poetry
+* Neon Tamil
+* Classic Black
+* Minimal White
+* Royal Gold
+* Forest Dream
+
+Each theme should include:
+
+* gradients
+* typography
+* borders
+* glow effects
+* shadows
+
+---
+
+6. UI / UX IMPROVEMENTS
+
+---
+
+Improve the overall UI/UX.
+
+Need:
+
+* smoother animations
+* modern design
+* cleaner spacing
+* responsive mobile layout
+* elegant typography
+* hover effects
+* better live preview
+* glassmorphism styling
+* smooth transitions
+
+Also add:
+
+* undo / redo
+* autosave
+* export poem as image
+* download as PDF
+
+---
+
+7. TECHNICAL REQUIREMENTS
+
+---
+
+* Do not break existing features
+* Keep responsive design
+* Optimize performance
+* Fix Tamil rendering issues
+* Use component-based structure
+* Separate app styling from poem styling
+* Improve editor stability
+
+Please refactor the editor professionally and improve overall usability.

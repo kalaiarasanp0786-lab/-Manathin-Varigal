@@ -45,7 +45,25 @@ ul, ol { padding-left: 1.25rem; }
 li { margin-bottom: 0.35rem; }
 .sr-only { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0,0,0,0); white-space: nowrap; }
 
-/* ─── CSS VARIABLE THEMES ───────────────────────────────── */
+/* ─── FIXED APP UI THEME (always dark, never changes) ───── */
+:root {
+  --app-bg: #07090f;
+  --app-fg: #c8d4f0;
+  --panel-bg: #0d1120;
+  --panel-border: #1e2a4a;
+  --input-bg: #111827;
+  --input-fg: #c8d4f0;
+  --border: #1e2a4a;
+  --accent: #5b8cff;
+  --accent-glow: rgba(91,140,255,0.25);
+  --accent2: #a78bfa;
+  --heading: #e0e8ff;
+  --muted: #556080;
+  --shimmer-start: #1a2f6a;
+  --shimmer-end: #0d1a40;
+}
+
+/* ─── POEM CARD THEMES (applied to #poemCard only) ───────── */
 
 /* 1 · Midnight Blue ──────────────────────────── */
 .theme-midnight {

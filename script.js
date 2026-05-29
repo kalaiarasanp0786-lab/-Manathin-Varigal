@@ -72,14 +72,116 @@ const SAMPLE_POEMS = [
 உன்னை தேடி அலைகிறேன்.`
 ];
 
-const SUGGESTIONS = [
-  { orig: 'வாழ் ஆசை', sugg: 'வாழ ஆசை — particle usage correction' },
-  { orig: 'எனக்கு தெரியாது', sugg: 'எனக்குத் தெரியாது — punarchi (புணர்ச்சி) rule' },
-  { orig: 'அவள் சொல்லுகிறாள்', sugg: 'அவள் சொல்கிறாள் — modern conjugation preferred' },
-  { orig: 'நான் போகிறேன்', sugg: '✓ Correct — no suggestion needed' },
-  { orig: 'மிகவும் அழகான', sugg: 'Consider: மிக அழகான — avoid adverb doubling' },
-  { orig: 'கண்ணீர் வருகிறது', sugg: '✓ Correct classical Tamil usage' },
+/* ══════════════════════════════════════════════════════════
+   SUGGESTION ENGINE — Tamil Poetry Analysis
+   ══════════════════════════════════════════════════════════ */
+const GRAMMAR_RULES = [
+  { pattern: 'எனக்கு த', fix: 'எனக்குத்', note: 'புணர்ச்சி — உகர எழுத்துக்கு முன் த→த்' },
+  { pattern: 'அவள் சொல்லுகிறாள்', fix: 'அவள் சொல்கிறாள்', note: 'நவீன வினை வடிவம் பயன்படுத்தவும்' },
+  { pattern: 'போகிறது', fix: 'போகின்றது', note: 'இலக்கிய வடிவம்: -கிறது → -கின்றது' },
+  { pattern: 'வருகிறது', fix: 'வருகின்றது', note: 'இலக்கிய வடிவம் மிகவும் அழகானது' },
+  { pattern: 'மிகவும் மிக', fix: 'மிக (மட்டும்)', note: 'இரட்டை அடைமொழி தவிர்க்கவும்' },
+  { pattern: 'நான் நான்', fix: 'நான் (ஒரு முறை)', note: 'சொல் மறிப்பு தவிர்க்கவும்' },
 ];
+
+const POETIC_WORDS = [
+  { plain: 'காதல்',    poetic: 'அன்பு / ஆசை / நேசம் / காமம்',    note: 'உணர்வை ஆழப்படுத்தும் சொற்கள்' },
+  { plain: 'வானம்',    poetic: 'விண் / ஆகாயம் / அம்பரம்',        note: 'பண்டைய இலக்கிய சொற்கள்' },
+  { plain: 'நீர்',     poetic: 'தண்ணீர் / புனல் / நீரோடை',       note: 'இயற்கை வர்ணனைக்கு' },
+  { plain: 'கண்',     poetic: 'விழி / நயனம் / கண்ணி',            note: 'சங்க இலக்கியம்' },
+  { plain: 'மரம்',    poetic: 'விருட்சம் / தரு / மரவல்லி',        note: 'இலக்கிய வடிவங்கள்' },
+  { plain: 'பூ',      poetic: 'மலர் / செம்மல் / நறுமலர்',         note: 'கவித்துவமான வடிவம்' },
+  { plain: 'நிலா',    poetic: 'மதி / திங்கள் / சந்திரன்',         note: 'அழகிய பண்டைய சொற்கள்' },
+  { plain: 'கடல்',    poetic: 'யாழ்கடல் / திரைகடல் / பேழைக்கடல்', note: 'சங்க இலக்கிய வடிவம்' },
+  { plain: 'இரவு',    poetic: 'யாமம் / இரா / கார்இரவு',           note: 'இலக்கிய நடை' },
+  { plain: 'காற்று',  poetic: 'வளி / மருத்து / தென்றல்',          note: 'இயற்கை கவிதை' },
+];
+
+const EMOTION_KEYWORDS = {
+  sadness:  ['கண்ணீர்','வலி','துயர்','அழுகை','தனிமை','கவலை','பிரிவு','இழப்பு'],
+  love:     ['காதல்','அன்பு','நேசம்','இதயம்','கனவு','ஆசை','தாகம்','மோகம்'],
+  nature:   ['மழை','வானம்','நிலா','காற்று','கடல்','மலர்','பூ','மரம்','ஆறு'],
+  longing:  ['ஏக்கம்','தவிப்பு','காத்திருக்கிறேன்','நினைவு','தேடுகிறேன்'],
+  joy:      ['மகிழ்ச்சி','சிரிப்பு','ஆனந்தம்','பரவசம்','உவகை'],
+  patriot:  ['தமிழ்','மண்','நாடு','விடுதலை','வீரம்','போர்'],
+};
+
+function analyzeTamilPoem(text) {
+  const lines = text.split('\n').filter(l => l.trim());
+  const results = [];
+
+  // 1. Line count feedback
+  if (lines.length < 3) {
+    results.push({ type: 'structure', icon: '📝', msg: 'கவிதை மிகவும் குறுகியது — குறைந்தது 4–8 வரிகள் சேர்க்கவும்.' });
+  } else if (lines.length > 20) {
+    results.push({ type: 'structure', icon: '📏', msg: `${lines.length} வரிகள் உள்ளன — நீண்ட கவிதையை பிரிவுகளாக (stanzas) ஒழுங்கமைக்கவும்.` });
+  } else {
+    results.push({ type: 'structure', icon: '✅', msg: `${lines.length} வரிகள் — நல்ல அளவு. கட்டமைப்பு சரியாக உள்ளது.` });
+  }
+
+  // 2. Emotion detection
+  let detected = [];
+  for (const [emotion, words] of Object.entries(EMOTION_KEYWORDS)) {
+    if (words.some(w => text.includes(w))) detected.push(emotion);
+  }
+  const emotionMap = {
+    sadness: '💔 சோகக் கவிதை — வலி, பிரிவு உணர்வுகள் தெரிகின்றன',
+    love:    '❤️ காதல் கவிதை — அன்பும் ஆசையும் நிறைந்துள்ளது',
+    nature:  '🌿 இயற்கை கவிதை — இயற்கை வர்ணனை அழகாக உள்ளது',
+    longing: '🌙 ஏக்கக் கவிதை — தவிப்பு உணர்வு நன்கு வெளிப்படுகிறது',
+    joy:     '😊 மகிழ்ச்சிக் கவிதை — உவகை உணர்வு நிறைந்துள்ளது',
+    patriot: '🏛️ தேசியக் கவிதை — தமிழ் பற்றும் மண் உணர்வும் வெளிப்படுகிறது',
+  };
+  if (detected.length > 0) {
+    results.push({ type: 'emotion', icon: '🎭', msg: `உணர்வு பகுப்பாய்வு: ${detected.map(e => emotionMap[e]).join(' | ')}` });
+  } else {
+    results.push({ type: 'emotion', icon: '🎭', msg: 'உணர்வு: தெளிவான உணர்வு வார்த்தைகளை சேர்க்கவும் — கவிதை உயிர் பெறும்.' });
+  }
+
+  // 3. Grammar checks
+  let grammarFound = false;
+  GRAMMAR_RULES.forEach(rule => {
+    if (text.includes(rule.pattern)) {
+      results.push({ type: 'grammar', icon: '⚠️', msg: `"${rule.pattern}" → "${rule.fix}" — ${rule.note}` });
+      grammarFound = true;
+    }
+  });
+  if (!grammarFound) {
+    results.push({ type: 'grammar', icon: '✅', msg: 'இலக்கண சோதனை: பெரிய தவறுகள் இல்லை.' });
+  }
+
+  // 4. Poetic word suggestions
+  const wordSuggs = POETIC_WORDS.filter(w => text.includes(w.plain));
+  if (wordSuggs.length > 0) {
+    wordSuggs.slice(0, 3).forEach(w => {
+      results.push({ type: 'vocab', icon: '✨', msg: `"${w.plain}" → கவித்துவமான மாற்று: ${w.poetic} (${w.note})` });
+    });
+  } else {
+    results.push({ type: 'vocab', icon: '📚', msg: 'சொல் வளம்: விழி, மலர், தண்டலை, புனல், மருத்து போன்ற இலக்கிய சொற்கள் பயன்படுத்தவும்.' });
+  }
+
+  // 5. Rhythm tip
+  const avgLen = lines.reduce((s, l) => s + l.length, 0) / (lines.length || 1);
+  if (avgLen < 8) {
+    results.push({ type: 'rhythm', icon: '🎵', msg: 'தாள நடை: வரிகள் மிகவும் குறுகியவை — சொற்களை நீட்டி ஒலி அழகை கொண்டுவாருங்கள்.' });
+  } else if (avgLen > 40) {
+    results.push({ type: 'rhythm', icon: '🎵', msg: 'தாள நடை: வரிகள் நீண்டவை — சிறு வரிகளாக உடைத்தால் தாளம் மேம்படும்.' });
+  } else {
+    results.push({ type: 'rhythm', icon: '🎵', msg: 'தாள நடை: வரி நீளம் சீராக உள்ளது — நல்ல தாளக் கட்டமைப்பு.' });
+  }
+
+  // 6. Always-on poetic tip
+  const poeticTips = [
+    'அனுப்பிராசம் (Alliteration): ஒரே எழுத்தில் தொடங்கும் வரிகள் கவிதையை இசையாக்கும்.',
+    'சொல் மறிப்பு (Repetition): முக்கியமான வார்த்தையை மீண்டும் பயன்படுத்துவது வலிமை தரும்.',
+    'உருவகம் (Metaphor): "கண்ணீர் ஆறாக ஓடுகிறது" போன்ற படிமங்கள் பயன்படுத்தவும்.',
+    'திரிபு (Irony): எதிரான சொற்களை இணைத்து ஆழமான பொருள் தரவும்.',
+    'முடிவு வரி: கவிதையின் கடைசி வரி வலிமையாக இருக்க வேண்டும் — வாசகர் மனதில் தங்க வேண்டும்.',
+  ];
+  results.push({ type: 'tip', icon: '💡', msg: poeticTips[Math.floor(Math.random() * poeticTips.length)] });
+
+  return results;
+}
 
 /* ══════════════════════════════════════════════════════════
    STATE
@@ -272,10 +374,10 @@ function applyTheme(themeId) {
   const theme = THEMES.find(t => t.id === themeId) || THEMES[0];
   state.currentTheme = themeId;
 
-  // Remove all theme classes
-  THEMES.forEach(t => el.body.classList.remove('theme-' + t.id));
-  el.body.classList.add('theme-' + themeId);
-  el.body.dataset.theme = themeId;
+  // Apply theme ONLY to the poem card — app chrome stays unchanged
+  THEMES.forEach(t => el.poemCard.classList.remove('theme-' + t.id));
+  el.poemCard.classList.add('theme-' + themeId);
+  el.poemCard.dataset.theme = themeId;
 
   // Update swatch active states
   el.themeGrid.querySelectorAll('.theme-swatch').forEach(btn => {
@@ -292,11 +394,72 @@ function applyTheme(themeId) {
 /* ══════════════════════════════════════════════════════════
    POEM EDITOR
    ══════════════════════════════════════════════════════════ */
+/* ── Undo/redo history for the poem editor ─────────────── */
+const undoStack = [];
+let undoPtr = -1;
+let undoLock = false;
+
+function pushUndo(val) {
+  if (undoLock) return;
+  // Trim any forward history
+  undoStack.splice(undoPtr + 1);
+  // Avoid duplicate consecutive entries
+  if (undoStack[undoPtr] !== val) {
+    undoStack.push(val);
+    if (undoStack.length > 200) undoStack.shift();
+    undoPtr = undoStack.length - 1;
+  }
+}
+
+function applyUndo() {
+  if (undoPtr > 0) {
+    undoPtr--;
+    undoLock = true;
+    el.poemEditor.value = undoStack[undoPtr];
+    undoLock = false;
+    updateLineCount();
+    updatePreview();
+    saveToStorage();
+    toast('undo ↩');
+  }
+}
+
+function applyRedo() {
+  if (undoPtr < undoStack.length - 1) {
+    undoPtr++;
+    undoLock = true;
+    el.poemEditor.value = undoStack[undoPtr];
+    undoLock = false;
+    updateLineCount();
+    updatePreview();
+    saveToStorage();
+    toast('redo ↪');
+  }
+}
+
 function bindPoemEditor() {
+  // Seed history with initial value
+  pushUndo(el.poemEditor.value);
+
+  let debounceTimer;
   el.poemEditor.addEventListener('input', () => {
     updateLineCount();
     updatePreview();
     saveToStorage();
+    clearTimeout(debounceTimer);
+    debounceTimer = setTimeout(() => pushUndo(el.poemEditor.value), 500);
+  });
+
+  // Trap Ctrl+Z / Ctrl+Y / Ctrl+Shift+Z inside the textarea itself
+  el.poemEditor.addEventListener('keydown', (e) => {
+    if ((e.ctrlKey || e.metaKey) && e.key === 'z' && !e.shiftKey) {
+      e.preventDefault();
+      applyUndo();
+    }
+    if ((e.ctrlKey || e.metaKey) && (e.key === 'y' || (e.key === 'z' && e.shiftKey))) {
+      e.preventDefault();
+      applyRedo();
+    }
   });
 }
 
@@ -345,29 +508,23 @@ function bindLineControls() {
 function bindSuggestions() {
   el.btnSuggest.addEventListener('click', () => {
     const text = el.poemEditor.value;
-    if (!text.trim()) { toast('Please enter a poem first'); return; }
+    if (!text.trim()) { toast('கவிதையை முதலில் உள்ளிடவும்'); return; }
 
+    const results = analyzeTamilPoem(text);
     el.suggestionList.innerHTML = '';
-    const found = [];
 
-    SUGGESTIONS.forEach(s => {
-      if (text.includes(s.orig)) found.push(s);
-    });
-
-    // Generic tips always shown
-    found.push(
-      { orig: 'Tip', sugg: 'Use யா / ஆல் / இல் particles consistently throughout' },
-      { orig: 'Rhythm', sugg: 'Consider assonance — repeat vowel sounds for musical flow' }
-    );
-
-    found.forEach(s => {
+    results.forEach(r => {
       const li = document.createElement('li');
-      li.innerHTML = `<strong>${s.orig}:</strong> ${s.sugg}`;
+      li.style.cssText = 'margin-bottom:0.5rem; padding:0.4rem 0.5rem; border-radius:6px; background:rgba(255,255,255,0.04);';
+      li.innerHTML = `<span style="font-size:1rem">${r.icon}</span> <strong style="color:var(--accent2)">[${r.type}]</strong> ${r.msg}`;
       el.suggestionList.appendChild(li);
     });
 
     el.suggestionBox.hidden = false;
-    toast('Suggestions ready ✦');
+    // Open the section if collapsed
+    const sec = el.suggestionBox.closest('.control-section');
+    if (sec && sec.classList.contains('collapsed')) toggleSection(sec);
+    toast('கவிதை பகுப்பாய்வு தயார் ✦');
   });
 }
 
